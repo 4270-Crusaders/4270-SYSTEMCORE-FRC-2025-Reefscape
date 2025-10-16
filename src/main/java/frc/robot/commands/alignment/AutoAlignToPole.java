@@ -10,11 +10,15 @@ import frc.robot.util.EqualsUtil;
 
 
 public class AutoAlignToPole extends Command{
+    double rotationThreshold = 2; // degrees
+    double distanceThreshold = 0.5; // meters
+
     PoleSide poleSide;
     Drive drive;
     Boolean isFinishedBool = false;
     AprilTagObj TagObj;
     AlignToPole aligningCommand;
+    double distanceBetweenGoal;
     public AutoAlignToPole(PoleSide poleside, Drive drive){
         this.poleSide = poleside;
         this.drive = drive;
@@ -22,22 +26,19 @@ public class AutoAlignToPole extends Command{
 
     @Override
     public void execute() {
+        isFinishedBool = false;
         while (!isFinishedBool){
             aligningCommand = new AlignToPole(poleSide, drive);
             
             Pose2d goalPose = aligningCommand.goalPose;
-            TagObj = FieldConstants.getTagObjByPose(drive.findClosestApriltag());
-            double goalX = goalPose.getX();
-            double goalY = goalPose.getY();
-            double goalRot = goalPose.getRotation().getDegrees();
 
-            double robotX = drive.getPose().getTranslation().getX();
-            double robotY = drive.getPose().getTranslation().getY();
+            distanceBetweenGoal = drive.getPose().getTranslation().getDistance(goalPose.getTranslation());
+
+            TagObj = FieldConstants.getTagObjByPose(drive.findClosestApriltag());
+            double goalRot = goalPose.getRotation().getDegrees();
             double robotRot = drive.getPose().getRotation().getDegrees();
             
-            if (EqualsUtil.epsilonEquals(goalRot, robotRot, 2)&&
-            EqualsUtil.epsilonEquals(goalX, robotX, 2)&&
-            EqualsUtil.epsilonEquals(goalY, robotY, 2)){
+            if (EqualsUtil.epsilonEquals(goalRot, robotRot, rotationThreshold)&& (distanceBetweenGoal < distanceThreshold)){
                 isFinishedBool = true;
             }
             else {

@@ -53,4 +53,9 @@ public class PathFindToPose extends Command{
 
         pathfindingCommand.schedule();
     }
+
+    @Override
+    public boolean isFinished() {
+        return pathfindingCommand.isFinished();
+    }
 }

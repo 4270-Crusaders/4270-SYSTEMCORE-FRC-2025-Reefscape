@@ -11,6 +11,7 @@ import frc.robot.AprilTagObj;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.PoleSide;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.util.ChassisSpeedConvert;
 import frc.robot.util.LoggedTunableNumber;
 
 public class AlignToPole extends Command{
@@ -104,7 +105,6 @@ public class AlignToPole extends Command{
         velocityX = kP_lin * errorX;
         velocityY = kP_lin * errorY;
 
-        drive.runVelocity(new ChassisSpeeds(velocityX, velocityY, OmegaVelocity).toFieldRelative(currentRotation));
+        drive.runVelocity(ChassisSpeedConvert.fromFieldRelativeSpeeds(new ChassisSpeeds(velocityX, velocityY, OmegaVelocity),currentRotation));
     }
 }
-

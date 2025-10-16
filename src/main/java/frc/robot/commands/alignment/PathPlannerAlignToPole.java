@@ -1,46 +1,29 @@
 package frc.robot.commands.alignment;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-
 import org.littletonrobotics.junction.Logger;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.FieldConstants.PoleSide;
-import frc.robot.generated.TunerConstants;
+import frc.robot.commands.pathOnFly.PathFindToPose;
 import frc.robot.subsystems.drive.Drive;
 
 public class PathPlannerAlignToPole extends Command{
     Drive drive;
     Double distanceBackFromTagOffset=-0.45;
     Double distanceSideFromTagOffset=0.18;
-    public static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
-    public static final double MaxAngularRate = RotationsPerSecond.of(10).in(RadiansPerSecond);
 
     Pose2d targetPose;
     // Create the constraints to use while pathfinding
-    PathConstraints constraints;
 
-    // Since AutoBuilder is configured, we can use it to build pathfinding commands
-    Command pathfindingCommand;
+    PathFindToPose pathFindToPoseCommand;
     PoleSide side;
 
     public PathPlannerAlignToPole(Drive drive, PoleSide side) {
         this.drive = drive;
         this.side = side;
 
-        // Create the constraints to use while pathfinding
-        constraints = new PathConstraints(
-            MaxSpeed,20,
-                MaxAngularRate, Units.rotationsToRadians(5));
     }
     
     @Override
@@ -69,13 +52,13 @@ public class PathPlannerAlignToPole extends Command{
         targetPose = new Pose2d(goalX, goalY, goalRotation);
         Logger.recordOutput("AlignmentThings/targetPose", targetPose);
 
-        // Since AutoBuilder is configured, we can use it to build pathfinding commands
-        pathfindingCommand = AutoBuilder.pathfindToPose(
-            targetPose,
-            constraints,
-            0.0 // Goal end velocity in meters/sec
-        );
+        pathFindToPoseCommand = new PathFindToPose(drive, targetPose, 0);
 
-        pathfindingCommand.schedule();
+        pathFindToPoseCommand.schedule();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pathFindToPoseCommand.isFinished();
     }
 }
