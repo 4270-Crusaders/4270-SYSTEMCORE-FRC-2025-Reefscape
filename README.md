@@ -1,11 +1,6 @@
 # 🤖 FRC 4270 "Crusaders" – Jake (2025 Reefscape / Beach Blitz)
 ![Team 4270 Logo](docs/placeholder-team-logo.png)
 
-[![Build Status](https://github.com/FRC4270/Jake-2025/workflows/CI/badge.svg)](https://github.com/FRC4270/Jake-2025/actions)
-[![FRC 2025 Season](https://img.shields.io/badge/Season-2025-REEFSCAPE-blue)](https://www.firstinspires.org/robotics/frc/game-and-season)
-[![WPILib 2027 Alpha](https://img.shields.io/badge/WPILib-2027-Alpha-orange)](https://github.com/wpilibsuite)
-[![SystemCore Alpha Tester](https://img.shields.io/badge/SystemCore-Alpha-green)](https://www.limelightvision.io/)
-
 ---
 
 ## 🌊 Overview
