@@ -20,9 +20,12 @@ It merges the functions of a roboRIO, coprocessor, and vision processor into a s
 - Built-in GPU acceleration for vision pipelines  
 - Dual-band Wi-Fi, multiple CAN buses, and USB-C power  
 - Native support for WPILib and multi-threaded real-time scheduling  
-- Direct integration with Limelight pipelines and AprilTag localization  
+- Direct integration with Limelight pipelines and AprilTag localization
+
+![SystemCore Preview Image](https://camo.githubusercontent.com/c26692919235c269ef953f9efd62e4f247e8347a856916aa5e1c3a1c13b086fc/68747470733a2f2f696b2e696d6167656b69742e696f2f6c6c696d692f636f6e74726f6c73797374656d2f746f70686f7573696e6763726f70)
 
 Team 4270 Crusaders is participating in the **Alpha Test Program (2025)** to help validate hardware and software before public release in 2027.
+More informations can be found on [SystemCore Testing Github Repo](https://github.com/wpilibsuite/SystemCoreTesting)
 
 ---
 
