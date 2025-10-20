@@ -33,10 +33,10 @@ More informations can be found on [SystemCore Testing Github Repo](https://githu
 
 > Two alliances race to **build their coral reef** and **manage ocean resources** in a 2 min 30 sec match that emphasizes precision, efficiency, and collaboration.
 
-- **Scoring Coral:** Deliver 3D-printed coral pieces into “Reef” structures at different heights.  
+- **Scoring Coral:** Deliver coral pieces into “Reef” structures at different heights.  
 - **Harvesting Algae:** Remove and score algae balls into the “Processor” or “Barge.”  
 - **Endgame Challenge:** Climb and balance on the floating “Barge” cage structure.  
-- **Autonomous Mode:** Navigate using AprilTags and field localization for consistent coral placement.  
+- **Autonomous Mode:** Navigate through the field and perform tasks autonomously in the first 15 seconds.  
 
 Full game manual: [FRC 2025 REEFSCAPE Manual (PDF)](https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf)
 
