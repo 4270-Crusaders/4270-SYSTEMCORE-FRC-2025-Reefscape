@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants.PoleSide;
-import frc.robot.commands.pathOnFly.PathFindToPose;
+import frc.robot.commands.pathOnFly.PathFindToPoseCommand;
 import frc.robot.subsystems.drive.Drive;
 
 public class PathPlannerAlignToPole extends Command{
@@ -17,7 +17,7 @@ public class PathPlannerAlignToPole extends Command{
     Pose2d targetPose;
     // Create the constraints to use while pathfinding
 
-    PathFindToPose pathFindToPoseCommand;
+    PathFindToPoseCommand pathFindToPoseCommand;
     PoleSide side;
 
     public PathPlannerAlignToPole(Drive drive, PoleSide side) {
@@ -52,9 +52,7 @@ public class PathPlannerAlignToPole extends Command{
         targetPose = new Pose2d(goalX, goalY, goalRotation);
         Logger.recordOutput("AlignmentThings/targetPose", targetPose);
 
-        pathFindToPoseCommand = new PathFindToPose(drive, targetPose, 0);
-
-        pathFindToPoseCommand.schedule();
+        new PathFindToPoseCommand(drive, targetPose, 0);
     }
 
     @Override

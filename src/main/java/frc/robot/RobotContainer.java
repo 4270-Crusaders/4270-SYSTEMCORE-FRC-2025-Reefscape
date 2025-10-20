@@ -7,6 +7,8 @@ package frc.robot;
 import static frc.robot.subsystems.vision.VisionConstants.camera0Name;
 import static frc.robot.subsystems.vision.VisionConstants.camera1Name;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -14,6 +16,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,21 +26,25 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants.CoralLevels;
 import frc.robot.FieldConstants.PoleSide;
+import frc.robot.commands.ControllerRumbleOnce;
 import frc.robot.commands.alignment.AlignToPole;
 import frc.robot.commands.states.SetRobotStates;
 import frc.robot.commands.states.SetRobotStates.BallIntakeState;
 import frc.robot.commands.states.SetRobotStates.CoralIntakeState;
 import frc.robot.commands.states.SetRobotStates.RobotState;
 import frc.robot.commands.subsystems.DriveCommands;
+import frc.robot.commands.subsystems.SetLEDs;
 import frc.robot.commands.subsystems.SpinClawIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOTalonFX;
-import frc.robot.subsystems.arm.Arm.ArmGoal;
 import frc.robot.subsystems.clawCanRange.ClawCanRange;
 import frc.robot.subsystems.clawIntake.ClawIntake;
+import frc.robot.subsystems.clawIntake.ClawIntakeIO;
 import frc.robot.subsystems.clawIntake.ClawIntakeIOTalonFX;
 import frc.robot.subsystems.climb.Climb;
+import frc.robot.subsystems.climb.ClimbIO;
 import frc.robot.subsystems.climb.ClimbIOTalonFX;
 import frc.robot.subsystems.climb.Climb.ClimbGoal;
 import frc.robot.subsystems.drive.Drive;
@@ -50,19 +57,25 @@ import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.elevator.ElevatorIOTalonFX;
 import frc.robot.subsystems.frontIntake.FrontIntake;
+import frc.robot.subsystems.frontIntake.FrontIntakeIO;
 import frc.robot.subsystems.frontIntake.FrontIntakeIOTalonFX;
 import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
 import frc.robot.subsystems.indexer.IndexerIOTalonFX;
 import frc.robot.subsystems.intakeWrist.IntakeWrist;
+import frc.robot.subsystems.intakeWrist.IntakeWristIO;
 import frc.robot.subsystems.intakeWrist.IntakeWristIOTalonFX;
-import frc.robot.subsystems.intakeWrist.IntakeWrist.IntakeWristGoal;
 import frc.robot.subsystems.leds.Led;
 import frc.robot.subsystems.leds.LedConstants.LEDStates;
 import frc.robot.subsystems.rearIntake.RearIntake;
+import frc.robot.subsystems.rearIntake.RearIntakeIO;
 import frc.robot.subsystems.rearIntake.RearIntakeIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
+import frc.robot.util.Elastic;
+import frc.robot.util.Elastic.Notification;
+import frc.robot.util.Elastic.NotificationLevel;
 
 public class RobotContainer {
   // Subsystems
@@ -79,6 +92,8 @@ public class RobotContainer {
   public static Arm arm;
   public static Led led;
 
+  Optional<Alliance> AllianceColor;
+
   // State stuff
   public static CoralIntakeState currentCoralIntakeState;
   public static BallIntakeState currentBallIntakeState;
@@ -88,8 +103,7 @@ public class RobotContainer {
   public static final CommandJoystick Buttons = new CommandJoystick(1);
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<Command> autoChooser;
-
+  public final LoggedDashboardChooser<Command> autoChooser;
 
   public RobotContainer() {
     currentCoralIntakeState = CoralIntakeState.NotCoralIntaking;
@@ -134,9 +148,16 @@ public class RobotContainer {
         vision =
           new Vision(
             drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
-            // new VisionIOPhotonVisionSim(camera0Name, robotToCamera0, drive::getPose),
-            // new VisionIOPhotonVisionSim(camera1Name, robotToCamera1, drive::getPose));
         elevator = new Elevator(new ElevatorIO(){});
+        clawIntake = new ClawIntake(new ClawIntakeIO(){});
+        clawCanRange = new ClawCanRange();
+        climb = new Climb(new ClimbIO(){});
+        led = new Led();
+        arm = new Arm(new ArmIO(){});
+        frontIntake = new FrontIntake(new FrontIntakeIO(){});
+        rearIntake = new RearIntake(new RearIntakeIO(){});
+        indexer = new Indexer(new IndexerIO(){});
+        intakeWrist = new IntakeWrist(new IntakeWristIO(){});
         break;
 
       default:
@@ -153,6 +174,22 @@ public class RobotContainer {
         break;
     }
 
+    AllianceColor = DriverStation.getAlliance();
+
+    if (AllianceColor.isPresent()) {
+        if (AllianceColor.get() == Alliance.Red) {
+          Elastic.selectTab("Red Alliance");
+        }
+        if (AllianceColor.get() == Alliance.Blue) {
+          Elastic.selectTab("Blue Alliance");
+        }
+    }
+    else {
+      Elastic.selectTab("No Alliance");
+    }
+
+    configNamedCommands();
+    
     //** Auto Chooser Routines *//
 
     // auto routines
@@ -175,16 +212,12 @@ public class RobotContainer {
       "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
       "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-
-
-    // NamedCommands for autos
-    configNamedCommands();
-
     // Configure button bindings
     configureBindings();
   }
 
   private void configureBindings() {
+
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
@@ -195,8 +228,9 @@ public class RobotContainer {
     // Tare heading or translation with D-pad
     Controller.povDown()
       .onTrue(Commands.runOnce(() -> drive.tareRotation(),drive).ignoringDisable(true));
-      Controller.povUp()
+    Controller.povUp()
       .onTrue(Commands.runOnce(() -> drive.tareTranslation(),drive).ignoringDisable(true));
+
     Controller.a().whileTrue(new AlignToPole(PoleSide.Left, drive));
     Controller.b().whileTrue(new AlignToPole(PoleSide.Right, drive));
 
@@ -219,37 +253,57 @@ public class RobotContainer {
     Trigger withinDistanceToScore = new Trigger(() -> drive.distanceToTag() <= 0.75);//meters
     Trigger endgame = new Trigger(() -> DriverStation.getMatchTime() <= 15);
 
-    isCoralIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.Default));
+    isCoralIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.Default).alongWith(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble)));
 
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L4).whileTrue(new SetRobotStates(RobotState.PrepScoreL4));
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L3).whileTrue(new SetRobotStates(RobotState.PrepScoreL3));
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L2).whileTrue(new SetRobotStates(RobotState.PrepScoreL2));
 
     Controller.a().or(Controller.b()).whileTrue(led.setLedCommand(LEDStates.NotInScoringPosition)); 
-    Controller.a().or(Controller.b()).and(withinDistanceToScore).onTrue(led.setLedCommand(LEDStates.InScoringPosition));
+    Controller.a().or(Controller.b()).and(withinDistanceToScore).onTrue(new SetLEDs(led, LEDStates.InScoringPosition).alongWith(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble)));
 
     endgame.onTrue(Commands.runOnce(()->climb.getSetpointCommand(ClimbGoal.OUT)));
     endgame.onTrue(Commands.runOnce(()->led.setLedCommand(LEDStates.Endgame)));
+    endgame.onTrue(new InstantCommand(()->Elastic.selectTab("Endgame")));
+    endgame.onTrue(new InstantCommand(()->Elastic.sendNotification(new Notification(NotificationLevel.INFO, "Endgame Started", "Prepare for Climb!"))));
 
+    
+    Buttons.button(12).onTrue(new SetRobotStates(RobotState.PrepScoreL1));
+    Buttons.button(11).onTrue(new SetRobotStates(RobotState.SmartScoreL2));
+    Buttons.button(2).onTrue(new SetRobotStates(RobotState.SmartScoreL3));
+    Buttons.button(1).onTrue(new SetRobotStates(RobotState.SmartScoreL4));
+
+    Buttons.button(10).onTrue(new SetRobotStates(RobotState.AlgDeafult));
+    Buttons.button(9).onTrue(new SetRobotStates(RobotState.AlgaeLow));
+    Buttons.button(8).onTrue(new SetRobotStates(RobotState.AlgaeHigh));
+
+    Buttons.button(6).onTrue(new SetRobotStates(RobotState.Processor));
+
+    Buttons.button(7).whileTrue(new SetRobotStates(RobotState.PrepThrow)).onFalse(new SetRobotStates(RobotState.ThrowAlgae));
+
+    Buttons.button(5).onTrue(new SetRobotStates(RobotState.PrepClimb));
+    Buttons.button(4).onTrue(new SetRobotStates(RobotState.Climbing));
+
+    Buttons.button(3).onTrue(new SetRobotStates(RobotState.BackwardBarge));
   }
 
-  private void configNamedCommands() { // for auto
-    NamedCommands.registerCommand("PrepScoreL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
-    NamedCommands.registerCommand("SpinIndexer", new SetRobotStates(RobotState.IndexingAuto));
-    NamedCommands.registerCommand("Intake", new SetRobotStates(RobotState.Intaking));
-    NamedCommands.registerCommand("Outtake", new SpinClawIntake(clawIntake, 1));
-    NamedCommands.registerCommand("ScoreL4", new SetRobotStates(RobotState.ScoringL4Auto));
-    NamedCommands.registerCommand("A1 Prep", new SetRobotStates(RobotState.AlgaeLow));
-    NamedCommands.registerCommand("A2 Prep", new SetRobotStates(RobotState.AlgaeHigh));
-    NamedCommands.registerCommand("AlgaeIntake", new SpinClawIntake(clawIntake, -0.25));
+  private void configNamedCommands() {
+    NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
+    NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
+    NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
+    NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4Auto));
+    NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4));
+    NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
+    NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
+    NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
+    NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
     NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));
     NamedCommands.registerCommand("BargePrep", new SetRobotStates(RobotState.BackwardBarge));
     NamedCommands.registerCommand("ArmReturn", new SetRobotStates(RobotState.Default));
-    NamedCommands.registerCommand("Slam4", new SetRobotStates(RobotState.ScoringL4));
     NamedCommands.registerCommand("ThrowPrep", new SetRobotStates(RobotState.PrepThrow));
-    NamedCommands.registerCommand("Throw", new SetRobotStates(RobotState.ThrowAlgae));
+    NamedCommands.registerCommand("ThrowAlgae", new SetRobotStates(RobotState.ThrowAlgae));
   }
-
+  
   public Command getAutonomousCommand() {
     return autoChooser.get();
   }

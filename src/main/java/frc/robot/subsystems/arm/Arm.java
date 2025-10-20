@@ -5,7 +5,6 @@ import static frc.robot.subsystems.arm.ArmConstants.*;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.util.EqualsUtil;
 import frc.robot.util.LoggedTunableNumber;
 
 import java.util.function.DoubleSupplier;
@@ -38,16 +37,16 @@ public class Arm extends SubsystemBase {
     BALLDEFAULT(new LoggedTunableNumber("Arm/BallDefault", 202)),
     INTAKE(new LoggedTunableNumber("Arm/Intake", -5)),
     PREPL1(new LoggedTunableNumber("Arm/PrepL1", 65)),
-    PREPL2(new LoggedTunableNumber("Arm/PrepL2", 115)),
+    PREPL2(new LoggedTunableNumber("Arm/PrepL2", 110)),
     PREPL3(new LoggedTunableNumber("Arm/PrepL3", 130)),
     PREPL4(new LoggedTunableNumber("Arm/PrepL4", 140)),
     RETURN(new LoggedTunableNumber("Arm/Return", 0)),
     SCOREL4AUTO(new LoggedTunableNumber("Arm/ScoreL4sAuto", 113.5)),
-    ALGAEINTAKE(new LoggedTunableNumber("Arm/AlgaeIntake", 95)),
+    ALGAEINTAKE(new LoggedTunableNumber("Arm/AlgaeIntake", 90)),
     BARGETHROWPREP(new LoggedTunableNumber("Arm/BargeThrowPrep", 103.7)),
     BARGETHROWRELEASE(new LoggedTunableNumber("Arm/BargeThrowRelease", 251)),
     CLIMB(new LoggedTunableNumber("Arm/Climb", 90)),
-    PROCESSOR(new LoggedTunableNumber("Arm/Processor", 62.5)),
+    PROCESSOR(new LoggedTunableNumber("Arm/Processor", 57)),
 
     BARGESCORE(new LoggedTunableNumber("Arm/BargeScore", 178.5)),
     BACKWARDBARGE(new LoggedTunableNumber("Arm/BackwardBarge", 178.5)); //0.65
@@ -132,7 +131,7 @@ public class Arm extends SubsystemBase {
 
       @Override
       public boolean isFinished() {
-        return EqualsUtil.epsilonEquals(goal.getDegrees(), inputs.positionDegrees, 0.008);
+        return atGoal();
       }
     };
   }

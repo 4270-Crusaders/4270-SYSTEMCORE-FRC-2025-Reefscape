@@ -15,6 +15,10 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.TunerConstants;
@@ -90,6 +94,8 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotPeriodic() {
+    double startTime = Timer.getFPGATimestamp();
+
     // Optionally switch the thread to high priority to improve loop
     // timing (see the template project documentation for details)
     // Threads.setCurrentThreadPriority(true, 99);
@@ -99,8 +105,17 @@ public class Robot extends LoggedRobot {
     // finished or interrupted commands, and running subsystem periodic() methods.
     // This must be called from the robot's periodic block in order for anything in
     // the Command-based framework to work.
+    
     CommandScheduler.getInstance().run();
 
+    SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage());
+    SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
+    SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+
+    double codeRuntime = (Timer.getFPGATimestamp() - startTime) * 1000.0;
+    SmartDashboard.putNumber("Code Runtime (ms)", codeRuntime);
+    
     // Return to non-RT thread priority (do not modify the first argument)
     // Threads.setCurrentThreadPriority(false, 10);
   }

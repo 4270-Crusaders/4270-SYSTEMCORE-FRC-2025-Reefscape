@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 
-public class PathFindToPose extends Command{
+public class PathFindToPoseCommand extends Command{
     Drive drive;
 
     public static final double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
@@ -29,7 +29,7 @@ public class PathFindToPose extends Command{
     // Since AutoBuilder is configured, we can use it to build pathfinding commands
     Command pathfindingCommand;
 
-    public PathFindToPose(Drive drive, Pose2d targetPose, double goalEndVelocity) {
+    public PathFindToPoseCommand(Drive drive, Pose2d targetPose, double goalEndVelocity) {
         this.drive = drive;
         this.targetPose = targetPose;
         this.goalEndVelocity = goalEndVelocity;

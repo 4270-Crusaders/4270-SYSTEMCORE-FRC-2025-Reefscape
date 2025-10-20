@@ -6,8 +6,10 @@ import frc.robot.subsystems.clawIntake.ClawIntake;
 public class SpinClawIntake extends Command {
     ClawIntake s_ClawIntake;
     double power;
-    
+    boolean finished;
+
     public SpinClawIntake(ClawIntake subsys, double power) {
+        finished = false;
         s_ClawIntake = subsys;
         this.power = power;
 
@@ -16,6 +18,13 @@ public class SpinClawIntake extends Command {
 
     @Override
     public void execute() {
+        finished = false;
         s_ClawIntake.runPowerDutyCycleOut(power);
+        finished = true;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
     }
 }

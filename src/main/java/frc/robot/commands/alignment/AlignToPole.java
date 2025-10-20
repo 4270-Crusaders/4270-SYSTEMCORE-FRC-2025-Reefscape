@@ -9,17 +9,28 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AprilTagObj;
 import frc.robot.FieldConstants;
+import frc.robot.RobotContainer;
+import frc.robot.FieldConstants.CoralLevels;
 import frc.robot.FieldConstants.PoleSide;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.util.ChassisSpeedConvert;
 import frc.robot.util.LoggedTunableNumber;
 
 public class AlignToPole extends Command{
-    private final Double distanceBackFromTagOffset=-0.45;
+    private Double distanceBackFromTagOffset;
     private final Double distanceSideFromTagOffsetLeft=0.185;
     private final Double distanceSideFromTagOffsetRight=-0.18;
 
-    
+    LoggedTunableNumber L1OffsetDistanceTunableNumber = new LoggedTunableNumber("Align/Offsets/L1OffsetDistance", -0.45);
+    LoggedTunableNumber L2OffsetDistanceTunableNumber = new LoggedTunableNumber("Align/Offsets/L2OffsetDistance", -0.5);
+    LoggedTunableNumber L3OffsetDistanceTunableNumber = new LoggedTunableNumber("Align/Offsets/L3OffsetDistance", -0.45);
+    LoggedTunableNumber L4OffsetDistanceTunableNumber = new LoggedTunableNumber("Align/Offsets/L4OffsetDistance", -0.45);
+
+    double L1OffsetDistance;
+    double L2OffsetDistance;
+    double L3OffsetDistance;
+    double L4OffsetDistance;
+
     Drive drive;
 
     double velocityX;
@@ -38,6 +49,8 @@ public class AlignToPole extends Command{
     public AprilTagObj TagObj;
     public int TagId;
 
+    CoralLevels currentCoralLevel;
+
     public AlignToPole (PoleSide side, Drive drive) {
         this.drive = drive;
         PoleSide currentPoleSide = side;
@@ -55,17 +68,49 @@ public class AlignToPole extends Command{
             sideOffset = 0;
         }
     }
+    
     private void changeVal(){
         kP_lin = kPLinTunableNumber.get();
         kP_rot = kPRotTunableNumber.get();
+        L1OffsetDistance = L1OffsetDistanceTunableNumber.get();
+        L2OffsetDistance = L2OffsetDistanceTunableNumber.get();
+        L3OffsetDistance = L3OffsetDistanceTunableNumber.get();
+        L4OffsetDistance = L4OffsetDistanceTunableNumber.get();
     }
+
     @Override
     public void execute() {
+        currentCoralLevel = RobotContainer.elevator.getCurrentLevel();
         LoggedTunableNumber.ifChanged(
             hashCode(),
             ()->changeVal(),
             kPLinTunableNumber,
-            kPRotTunableNumber);
+            kPRotTunableNumber,
+            L1OffsetDistanceTunableNumber,
+            L2OffsetDistanceTunableNumber,
+            L3OffsetDistanceTunableNumber,
+            L4OffsetDistanceTunableNumber);
+
+        switch (currentCoralLevel) {
+            case L1:
+                distanceBackFromTagOffset = L1OffsetDistance;
+                break;
+            case L2:
+                distanceBackFromTagOffset = L2OffsetDistance;
+                break;
+            case L3:
+                distanceBackFromTagOffset = L3OffsetDistance;
+                break;
+            case L4:
+                distanceBackFromTagOffset = L4OffsetDistance;
+                break;
+            case L4Auto:
+                distanceBackFromTagOffset = L4OffsetDistance;
+                break;
+            default:
+                distanceBackFromTagOffset = L4OffsetDistance;
+                break;
+        }
 
         HeadingController.setP(kP_rot);
 

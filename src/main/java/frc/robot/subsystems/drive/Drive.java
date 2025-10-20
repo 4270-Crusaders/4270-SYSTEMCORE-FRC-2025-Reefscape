@@ -18,9 +18,11 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.PathPlannerLogging;
+
+// import edu.wpi.first.hal.HAL;
 // import edu.wpi.first.hal.FRCNetComm.tInstances;
 // import edu.wpi.first.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.hal.HAL;
+// import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -33,6 +35,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.trajectory.Trajectory;
 // import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -47,10 +50,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.FieldConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
-
+// import java.time.InstantSource;
 import java.util.Arrays;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -59,7 +63,8 @@ import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
   public static Pose2d closesetApriltagPose;
-  public static Field2d ElasticField;
+  public static Field2d Field;
+  public static Trajectory autoTrajectory;
   public static double distanceToTag;
 
   // TunerConstants doesn't include these constants, so they are declared locally
@@ -151,7 +156,8 @@ public class Drive extends SubsystemBase {
     // Start odometry thread
     PhoenixOdometryThread.getInstance().start();
     //field
-    ElasticField = new Field2d();
+    Field = new Field2d();
+    autoTrajectory = new Trajectory();
     // Configure AutoBuilder for PathPlanner
     configPathPlanner();
     // AutoBuilder.configure(
@@ -165,14 +171,21 @@ public class Drive extends SubsystemBase {
     //     () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
     //     this);
     Pathfinding.setPathfinder(new LocalADStarAK());
+    PathPlannerLogging.setLogCurrentPoseCallback(
+        (pose) -> {
+          Logger.recordOutput("Odometry/CurrentPose", pose);
+          Field.setRobotPose(pose);
+        });
     PathPlannerLogging.setLogActivePathCallback(
         (activePath) -> {
           Logger.recordOutput(
               "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+          Field.getObject("path").setPoses(activePath);
         });
     PathPlannerLogging.setLogTargetPoseCallback(
         (targetPose) -> {
           Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+          // Field.getObject("target pose").setPose(targetPose);
         });
 
     // Elastic Swerve
@@ -191,6 +204,9 @@ public class Drive extends SubsystemBase {
         builder.addDoubleProperty("Robot Angle", () -> getRotation().getRadians(), null);
       }
     });
+
+    // Elastic Field
+    SmartDashboard.putData("Field", Field);
 
     // Configure SysId
     sysId =
@@ -213,7 +229,10 @@ public class Drive extends SubsystemBase {
       module.periodic();
     }
 
-    ElasticField.setRobotPose(getPose());
+    // Field.setRobotPose(getPose());
+    // Field.getObject("traj").setTrajectory(autoTrajectory);
+
+
     distanceToTag = poseEstimator.getEstimatedPosition().getTranslation().getDistance(findClosestApriltag().getTranslation());
     SmartDashboard.putNumber("distanceToTag", distanceToTag());
     odometryLock.unlock();

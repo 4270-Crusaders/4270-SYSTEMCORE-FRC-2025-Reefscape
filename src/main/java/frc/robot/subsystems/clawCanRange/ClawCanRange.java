@@ -8,7 +8,6 @@ import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.hardware.CANrange;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.clawIntake.ClawIntakeConstants;
 
 public class ClawCanRange extends SubsystemBase{
     
@@ -19,7 +18,7 @@ public class ClawCanRange extends SubsystemBase{
     private final CANrange RangeFinder;
 
     public ClawCanRange(){
-        RangeFinder = new CANrange(ClawIntakeConstants.ClawIntakeCanId);
+        RangeFinder = new CANrange(ClawCanRangeConstants.ClawCanRangeCanId);
         var CanRangeConfig = new CANrangeConfiguration();
         CanRangeConfig.ProximityParams.withProximityThreshold(0.08);
         CanRangeConfig.ProximityParams.withMinSignalStrengthForValidMeasurement(0.02);

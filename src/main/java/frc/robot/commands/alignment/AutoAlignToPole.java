@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.AprilTagObj;
 import frc.robot.FieldConstants;
+import frc.robot.FieldConstants.CoralLevels;
 import frc.robot.FieldConstants.PoleSide;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.util.EqualsUtil;
@@ -19,7 +20,10 @@ public class AutoAlignToPole extends Command{
     AprilTagObj TagObj;
     AlignToPole aligningCommand;
     double distanceBetweenGoal;
-    public AutoAlignToPole(PoleSide poleside, Drive drive){
+
+    CoralLevels CoralLevel;
+    public AutoAlignToPole(PoleSide poleside, Drive drive, CoralLevels CoralLevel){
+        this.CoralLevel = CoralLevel;
         this.poleSide = poleside;
         this.drive = drive;
     }

@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.FieldConstants.CoralLevels;
-import frc.robot.util.EqualsUtil;
 import frc.robot.util.LoggedTunableNumber;
 import java.util.function.DoubleSupplier;
 
@@ -60,12 +59,12 @@ public class Elevator extends SubsystemBase {
   private static CoralLevels currentLevel;
 
   public enum ElevatorGoal {  //(RotationPosition/(175/18))*3.14159625*0.0444754*2 = meterPositon
-    DEFAULT(new LoggedTunableNumber("Elevator/DEFAULT", 0.02)),
-    STOW(new LoggedTunableNumber("Elevator/Stow", 0.02)),
-    INTAKE(new LoggedTunableNumber("Elevator/Intake", 0.015)),
+    DEFAULT(new LoggedTunableNumber("Elevator/DEFAULT", 0.03)),
+    STOW(new LoggedTunableNumber("Elevator/Stow", 0.03)),
+    INTAKE(new LoggedTunableNumber("Elevator/Intake", 0.02)),
 
     PREPL1(new LoggedTunableNumber("Elevator/PrepL1", 0.18)),
-    PREPL2(new LoggedTunableNumber("Elevator/PrepL2", 0.0175)),
+    PREPL2(new LoggedTunableNumber("Elevator/PrepL2", 0.015)),
     PREPL3(new LoggedTunableNumber("Elevator/PrepL3", 0.4)),
     PREPL4(new LoggedTunableNumber("Elevator/PrepL4", 1.35)),
 
@@ -74,14 +73,14 @@ public class Elevator extends SubsystemBase {
     SCOREL3(new LoggedTunableNumber("Elevator/ScoreL3", PREPL3.getMeters() - coralScoringDownOffset)),
     SCOREL4(new LoggedTunableNumber("Elevator/ScoreL4", PREPL4.getMeters() - coralScoringDownOffset)),
 
-    ALGAEL1(new LoggedTunableNumber("Elevator/ALGAEL1", 0.150614218)),
-    ALGAEL2(new LoggedTunableNumber("Elevator/ALGAEL2", 0.787103006)),
+    ALGAEL1(new LoggedTunableNumber("Elevator/ALGAEL1", 0.15)),
+    ALGAEL2(new LoggedTunableNumber("Elevator/ALGAEL2", 0.80)),
 
     PROCESSOR(new LoggedTunableNumber("Elevator/PrepL2", 0.0175)),
 
     ALGAEPROCESSOR(new LoggedTunableNumber("Elevator/AlgaeProcessor", 0.0129344271)),
-    PREPALGAETHROW(new LoggedTunableNumber("Elevator/AlgaeProcessor", 0.00287431714)),
-    ALGAETHROW(new LoggedTunableNumber("Elevator/AlgaeProcessor", 1.29373014)),
+    PREPALGAETHROW(new LoggedTunableNumber("Elevator/PREPALGAETHROW", 1.3)),
+    ALGAETHROW(new LoggedTunableNumber("Elevator/ALGAETHROW", 1.3)),
 
     BARGESCORE(new LoggedTunableNumber("Elevator/BargeScore", 0.54)),
 
@@ -202,7 +201,7 @@ public class Elevator extends SubsystemBase {
 
       @Override
       public boolean isFinished() {
-        return EqualsUtil.epsilonEquals(goal.getMeters(), inputs.positionMeters[0], 0.03);
+        return atGoal();
       }
     };
   }

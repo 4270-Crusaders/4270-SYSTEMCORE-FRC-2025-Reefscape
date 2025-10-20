@@ -15,7 +15,7 @@ public class ElevatorConstants {
     
     public static final double maxHeight = 1.25205255;
 
-    public static final double coralScoringDownOffset = 0.08;
+    public static final double coralScoringDownOffset = 0.02;
 
     public static TrapezoidProfile.Constraints profileConstraints =
         new TrapezoidProfile.Constraints(100.0, 26.0);
