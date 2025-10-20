@@ -1,5 +1,5 @@
 # 🤖 FRC 4270 "Crusaders" – Jake (2025 Reefscape / Beach Blitz)
-![Team 4270 Logo]([docs/placeholder-team-logo.png](https://i.imgur.com/B0F0SCk.png))
+![Team 4270 Logo](https://i.imgur.com/B0F0SCk.png)
 
 ---
 
