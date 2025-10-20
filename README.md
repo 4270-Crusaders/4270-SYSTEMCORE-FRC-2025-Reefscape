@@ -35,6 +35,6 @@ Team 4270 Crusaders is participating in the **Alpha Test Program (2025)** to hel
 - **Endgame Challenge:** Climb and balance on the floating “Barge” cage structure.  
 - **Autonomous Mode:** Navigate using AprilTags and field localization for consistent coral placement.  
 
-Full game manual: [FRC 2025 REEFSCAPE Manual (PDF)](https://www.firstinspires.org/resource-library/frc/game-and-season-info)
+Full game manual: [FRC 2025 REEFSCAPE Manual (PDF)](https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf)
 
 ---
