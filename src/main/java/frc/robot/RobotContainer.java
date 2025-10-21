@@ -12,14 +12,12 @@ import java.util.Optional;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -73,9 +71,6 @@ import frc.robot.subsystems.rearIntake.RearIntakeIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
-import frc.robot.util.Elastic;
-import frc.robot.util.Elastic.Notification;
-import frc.robot.util.Elastic.NotificationLevel;
 
 public class RobotContainer {
   // Subsystems
@@ -174,21 +169,7 @@ public class RobotContainer {
         break;
     }
 
-    AllianceColor = DriverStation.getAlliance();
-
-    if (AllianceColor.isPresent()) {
-        if (AllianceColor.get() == Alliance.Red) {
-          Elastic.selectTab("Red Alliance");
-        }
-        if (AllianceColor.get() == Alliance.Blue) {
-          Elastic.selectTab("Blue Alliance");
-        }
-    }
-    else {
-      Elastic.selectTab("No Alliance");
-    }
-
-    configNamedCommands();
+    // configNamedCommands();
     
     //** Auto Chooser Routines *//
 
@@ -250,7 +231,7 @@ public class RobotContainer {
     Trigger objectInClaw = new Trigger(() -> clawCanRange.objectInClaw);
     Trigger isCoralIntaking = new Trigger(() -> currentCoralIntakeState.equals(CoralIntakeState.CoralIntaking));
     Trigger withinDistancePrep = new Trigger(() -> drive.distanceToTag() <= 1.5);//meters
-    Trigger withinDistanceToScore = new Trigger(() -> drive.distanceToTag() <= 0.75);//meters
+    Trigger withinDistanceToScore = new Trigger(() -> drive.distanceToTag() <= 0.5);//meters
     Trigger endgame = new Trigger(() -> DriverStation.getMatchTime() <= 15);
 
     isCoralIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.Default).alongWith(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble)));
@@ -264,9 +245,6 @@ public class RobotContainer {
 
     endgame.onTrue(Commands.runOnce(()->climb.getSetpointCommand(ClimbGoal.OUT)));
     endgame.onTrue(Commands.runOnce(()->led.setLedCommand(LEDStates.Endgame)));
-    endgame.onTrue(new InstantCommand(()->Elastic.selectTab("Endgame")));
-    endgame.onTrue(new InstantCommand(()->Elastic.sendNotification(new Notification(NotificationLevel.INFO, "Endgame Started", "Prepare for Climb!"))));
-
     
     Buttons.button(12).onTrue(new SetRobotStates(RobotState.PrepScoreL1));
     Buttons.button(11).onTrue(new SetRobotStates(RobotState.SmartScoreL2));
@@ -287,22 +265,22 @@ public class RobotContainer {
     Buttons.button(3).onTrue(new SetRobotStates(RobotState.BackwardBarge));
   }
 
-  private void configNamedCommands() {
-    NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
-    NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
-    NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
-    NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4Auto));
-    NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4));
-    NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
-    NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
-    NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
-    NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
-    NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));
-    NamedCommands.registerCommand("BargePrep", new SetRobotStates(RobotState.BackwardBarge));
-    NamedCommands.registerCommand("ArmReturn", new SetRobotStates(RobotState.Default));
-    NamedCommands.registerCommand("ThrowPrep", new SetRobotStates(RobotState.PrepThrow));
-    NamedCommands.registerCommand("ThrowAlgae", new SetRobotStates(RobotState.ThrowAlgae));
-  }
+  // private void configNamedCommands() {
+  //   NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
+  //   NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
+  //   NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
+  //   NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4Auto));
+  //   NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4));
+  //   NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
+  //   NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
+  //   NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
+  //   NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
+  //   NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));
+  //   NamedCommands.registerCommand("BargePrep", new SetRobotStates(RobotState.BackwardBarge));
+  //   NamedCommands.registerCommand("ArmReturn", new SetRobotStates(RobotState.Default));
+  //   NamedCommands.registerCommand("ThrowPrep", new SetRobotStates(RobotState.PrepThrow));
+  //   NamedCommands.registerCommand("ThrowAlgae", new SetRobotStates(RobotState.ThrowAlgae));
+  // }
   
   public Command getAutonomousCommand() {
     return autoChooser.get();

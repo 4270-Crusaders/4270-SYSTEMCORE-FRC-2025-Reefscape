@@ -12,7 +12,6 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.CANBus;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-// import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -174,18 +173,15 @@ public class Drive extends SubsystemBase {
     PathPlannerLogging.setLogCurrentPoseCallback(
         (pose) -> {
           Logger.recordOutput("Odometry/CurrentPose", pose);
-          Field.setRobotPose(pose);
         });
     PathPlannerLogging.setLogActivePathCallback(
         (activePath) -> {
           Logger.recordOutput(
               "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-          Field.getObject("path").setPoses(activePath);
         });
     PathPlannerLogging.setLogTargetPoseCallback(
         (targetPose) -> {
           Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-          // Field.getObject("target pose").setPose(targetPose);
         });
 
     // Elastic Swerve
@@ -229,8 +225,7 @@ public class Drive extends SubsystemBase {
       module.periodic();
     }
 
-    // Field.setRobotPose(getPose());
-    // Field.getObject("traj").setTrajectory(autoTrajectory);
+    Field.setRobotPose(getPose());
 
 
     distanceToTag = poseEstimator.getEstimatedPosition().getTranslation().getDistance(findClosestApriltag().getTranslation());
