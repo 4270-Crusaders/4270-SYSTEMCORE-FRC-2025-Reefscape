@@ -104,9 +104,6 @@ public class AlignToPole extends Command{
             case L4:
                 distanceBackFromTagOffset = L4OffsetDistance;
                 break;
-            case L4Auto:
-                distanceBackFromTagOffset = L4OffsetDistance;
-                break;
             default:
                 distanceBackFromTagOffset = L4OffsetDistance;
                 break;

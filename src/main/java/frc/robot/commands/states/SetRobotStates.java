@@ -31,7 +31,8 @@ public class SetRobotStates extends SequentialCommandGroup {
         ScoringL2,
         ScoringL3,
         ScoringL4,
-        ScoringL4Auto,
+        ScoringL4AutoSmooth,
+        ScoringL4AutoRough,
 
         PrepClimb,
         Climbing,
@@ -101,12 +102,17 @@ public class SetRobotStates extends SequentialCommandGroup {
                 break;
             case PrepScoreL4Auto:
                 addCommands(
-                    RobotStateCommands.prepCoralScore(CoralLevels.L4Auto)
+                    RobotStateCommands.prepCoralScore(CoralLevels.L4)
                 );
                 break;
-            case ScoringL4Auto:
+            case ScoringL4AutoSmooth:
                 addCommands(
-                    RobotStateCommands.scoringState(CoralLevels.L4Auto)
+                    RobotStateCommands.scoringState(CoralLevels.L4AutoSmooth)
+                );
+                break;
+            case ScoringL4AutoRough:
+                addCommands(
+                    RobotStateCommands.scoringState(CoralLevels.L4AutoRough)
                 );
                 break;
             case ScoringL4:

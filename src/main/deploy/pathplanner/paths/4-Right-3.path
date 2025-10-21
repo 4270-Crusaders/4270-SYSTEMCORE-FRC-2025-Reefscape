@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7091422819847875,
-        "y": 2.1812631361369372
+        "x": 3.575436950908715,
+        "y": 2.2144343179206056
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 0.75
       },
       "prevControl": {
-        "x": 3.6358419745855484,
-        "y": 1.0876769260275814
+        "x": 3.6640162281399205,
+        "y": 1.1080222637450161
       },
       "nextControl": {
-        "x": 2.4387541874519134,
-        "y": 0.4519388962947564
+        "x": 2.445963767244046,
+        "y": 0.4512764178916275
       },
       "isLocked": false,
       "linkedName": null
@@ -36,28 +36,28 @@
         "y": 1.375
       },
       "prevControl": {
-        "x": 1.3254101959994167,
-        "y": 0.7380582395939849
+        "x": 1.2969592506333476,
+        "y": 0.8010789274568211
       },
       "nextControl": {
-        "x": 1.6430730629157346,
-        "y": 1.8969618011595004
+        "x": 1.642543513728228,
+        "y": 1.7779177716205492
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6624147727272724,
-        "y": 1.8761221590909098
+        "x": 2.373238636363636,
+        "y": 1.7863778409090911
       },
       "prevControl": {
-        "x": 2.4178586340498023,
-        "y": 1.7595894903621379
+        "x": 2.129755694832922,
+        "y": 1.7296675492192144
       },
       "nextControl": {
-        "x": 3.329790576547457,
-        "y": 2.1941312832321076
+        "x": 3.021083153263633,
+        "y": 1.937269116051878
       },
       "isLocked": false,
       "linkedName": null
@@ -68,8 +68,8 @@
         "y": 3.0
       },
       "prevControl": {
-        "x": 3.374564007311483,
-        "y": 2.88826967968357
+        "x": 3.4802512285921052,
+        "y": 2.7805456044042414
       },
       "nextControl": null,
       "isLocked": false,
@@ -102,8 +102,8 @@
     },
     {
       "name": "Intake",
-      "minWaypointRelativePos": 1.4105736782902154,
-      "maxWaypointRelativePos": 1.6872890888638938,
+      "minWaypointRelativePos": 1.0798650168729236,
+      "maxWaypointRelativePos": 1.3498312710911213,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 3.0,
@@ -115,7 +115,7 @@
     },
     {
       "name": "Align",
-      "minWaypointRelativePos": 3.7,
+      "minWaypointRelativePos": 3.8,
       "maxWaypointRelativePos": 4.0,
       "constraints": {
         "maxVelocity": 1.0,

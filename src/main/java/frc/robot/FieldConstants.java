@@ -17,7 +17,8 @@ public class FieldConstants {
         L2,
         L3,
         L4,
-        L4Auto
+        L4AutoSmooth,
+        L4AutoRough
     }
     public static final AprilTagObj[] CORAL_APRIL_TAG_OBJS = {
         //blue

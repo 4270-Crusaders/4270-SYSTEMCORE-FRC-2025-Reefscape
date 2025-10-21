@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5-Right-1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5-Right-2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5-Right-3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5-Right-4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5-Right-5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreL4Rough"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

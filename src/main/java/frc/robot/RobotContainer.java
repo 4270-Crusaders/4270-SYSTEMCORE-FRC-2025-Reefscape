@@ -273,18 +273,20 @@ public class RobotContainer {
   }
 
   private void configNamedCommands() {
+    NamedCommands.registerCommand("Return", new SetRobotStates(RobotState.Return));
     NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
     NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
     NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
-    NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4Auto));
-    NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4));
+    NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4AutoSmooth));
+    NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4AutoRough));
     NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
     NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
     NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
     NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
     NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));
     NamedCommands.registerCommand("BargePrep", new SetRobotStates(RobotState.BackwardBarge));
-    NamedCommands.registerCommand("ArmReturn", new SetRobotStates(RobotState.Default));
+    NamedCommands.registerCommand("Default", new SetRobotStates(RobotState.Default));
+    NamedCommands.registerCommand("AlgaeDefault", new SetRobotStates(RobotState.AlgDeafult));
     NamedCommands.registerCommand("ThrowPrep", new SetRobotStates(RobotState.PrepThrow));
     NamedCommands.registerCommand("ThrowAlgae", new SetRobotStates(RobotState.ThrowAlgae));
   }

@@ -149,17 +149,7 @@ public class RobotStateCommands {
                         new SpinClawIntake(RobotContainer.clawIntake, 0)       
                     ),
                     RobotContainer.arm.getSetpointCommand(ArmGoal.PREPL4,2)
-                );
-            case L4Auto:
-                return new SequentialCommandGroup(
-                    new InstantCommand(() -> RobotContainer.elevator.setCurrentLevel(level), RobotContainer.elevator),
-                    new ParallelRaceGroup(
-                        new WaitCommand(0.5),
-                        RobotContainer.elevator.getSetpointCommand(ElevatorGoal.PREPL4),
-                        new SpinClawIntake(RobotContainer.clawIntake, 0),
-                        RobotContainer.arm.getSetpointCommand(ArmGoal.PREPL4,2)
-                    )
-                );            
+                );        
             default:
                 //L1
                 return new SequentialCommandGroup(
@@ -213,7 +203,19 @@ public class RobotStateCommands {
                         RobotContainer.arm.getSetpointCommand(ArmGoal.RETURN,0.95)
                     )
                 );
-            case L4Auto:
+            case L4AutoRough:
+                return new SequentialCommandGroup(
+                    RobotContainer.elevator.getSetpointCommand(ElevatorGoal.SCOREL4),
+                    new ParallelRaceGroup(
+                        new WaitCommand(0.5),
+                        RobotContainer.arm.getSetpointCommand(ArmGoal.RETURN,0.95)
+                    ),
+                    new ParallelRaceGroup(
+                        new WaitCommand(0.2),
+                        new SpinClawIntake(RobotContainer.clawIntake, 1)
+                    )
+                );
+            case L4AutoSmooth:
                 return new SequentialCommandGroup(
                     new ParallelDeadlineGroup(
                         new WaitCommand(0.5),

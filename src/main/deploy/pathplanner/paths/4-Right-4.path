@@ -103,7 +103,7 @@
     {
       "name": "Intake",
       "minWaypointRelativePos": 1.2778402699662557,
-      "maxWaypointRelativePos": 1.637795275590555,
+      "maxWaypointRelativePos": 1.5658042744656966,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 3.0,
