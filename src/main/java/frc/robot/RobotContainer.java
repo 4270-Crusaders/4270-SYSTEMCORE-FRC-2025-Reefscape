@@ -12,12 +12,14 @@ import java.util.Optional;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -71,6 +73,8 @@ import frc.robot.subsystems.rearIntake.RearIntakeIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
+import frc.robot.util.Elastic;
+import frc.robot.util.Elastic.NotificationLevel;
 
 public class RobotContainer {
   // Subsystems
@@ -168,8 +172,9 @@ public class RobotContainer {
         elevator = new Elevator(new ElevatorIO(){});
         break;
     }
-
-    // configNamedCommands();
+  
+    // Configure named commands
+    configNamedCommands();
     
     //** Auto Chooser Routines *//
 
@@ -243,9 +248,11 @@ public class RobotContainer {
     Controller.a().or(Controller.b()).whileTrue(led.setLedCommand(LEDStates.NotInScoringPosition)); 
     Controller.a().or(Controller.b()).and(withinDistanceToScore).onTrue(new SetLEDs(led, LEDStates.InScoringPosition).alongWith(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble)));
 
-    endgame.onTrue(Commands.runOnce(()->climb.getSetpointCommand(ClimbGoal.OUT)));
-    endgame.onTrue(Commands.runOnce(()->led.setLedCommand(LEDStates.Endgame)));
-    
+    endgame.onTrue(new InstantCommand(()->climb.getSetpointCommand(ClimbGoal.OUT)));
+    endgame.onTrue(new InstantCommand(()->led.setLedCommand(LEDStates.Endgame)));
+    endgame.onTrue(new InstantCommand(()->Elastic.selectTab("Endgame")));
+    endgame.onTrue(new InstantCommand(()->Elastic.sendNotification(new Elastic.Notification(NotificationLevel.WARNING, "Endgame Started", "Climb activated and 15 seconds left in the match"))));
+
     Buttons.button(12).onTrue(new SetRobotStates(RobotState.PrepScoreL1));
     Buttons.button(11).onTrue(new SetRobotStates(RobotState.SmartScoreL2));
     Buttons.button(2).onTrue(new SetRobotStates(RobotState.SmartScoreL3));
@@ -265,22 +272,22 @@ public class RobotContainer {
     Buttons.button(3).onTrue(new SetRobotStates(RobotState.BackwardBarge));
   }
 
-  // private void configNamedCommands() {
-  //   NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
-  //   NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
-  //   NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
-  //   NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4Auto));
-  //   NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4));
-  //   NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
-  //   NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
-  //   NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
-  //   NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
-  //   NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));
-  //   NamedCommands.registerCommand("BargePrep", new SetRobotStates(RobotState.BackwardBarge));
-  //   NamedCommands.registerCommand("ArmReturn", new SetRobotStates(RobotState.Default));
-  //   NamedCommands.registerCommand("ThrowPrep", new SetRobotStates(RobotState.PrepThrow));
-  //   NamedCommands.registerCommand("ThrowAlgae", new SetRobotStates(RobotState.ThrowAlgae));
-  // }
+  private void configNamedCommands() {
+    NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
+    NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
+    NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
+    NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4Auto));
+    NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4));
+    NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
+    NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
+    NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
+    NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
+    NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));
+    NamedCommands.registerCommand("BargePrep", new SetRobotStates(RobotState.BackwardBarge));
+    NamedCommands.registerCommand("ArmReturn", new SetRobotStates(RobotState.Default));
+    NamedCommands.registerCommand("ThrowPrep", new SetRobotStates(RobotState.PrepThrow));
+    NamedCommands.registerCommand("ThrowAlgae", new SetRobotStates(RobotState.ThrowAlgae));
+  }
   
   public Command getAutonomousCommand() {
     return autoChooser.get();

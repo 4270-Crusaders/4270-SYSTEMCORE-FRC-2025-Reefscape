@@ -1,0 +1,180 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.9,
+        "y": 2.9
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.640750466254158,
+        "y": 1.7780826575356619
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.4302272727289624,
+        "y": 0.7194176136302906
+      },
+      "prevControl": {
+        "x": 4.154083529624026,
+        "y": 1.1431205396446955
+      },
+      "nextControl": {
+        "x": 3.150734338970096,
+        "y": 0.5558188705014466
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.4558522727289636,
+        "y": 1.178110795448472
+      },
+      "prevControl": {
+        "x": 1.621779654724131,
+        "y": 0.4640281486261517
+      },
+      "nextControl": {
+        "x": 1.1605821786885486,
+        "y": 2.448830840232856
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.18,
+        "y": 2.9
+      },
+      "prevControl": {
+        "x": 5.806575451247318,
+        "y": 1.814739483664247
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9339622641509433,
+      "rotationDegrees": 110.0
+    },
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 49.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Intake",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.13498312710911173,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Intake",
+      "minWaypointRelativePos": 1.275590551181105,
+      "maxWaypointRelativePos": 1.721034870641169,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Align",
+      "minWaypointRelativePos": 2.8413948256468053,
+      "maxWaypointRelativePos": 3.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "ScoreL4Smooth",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ScoreL4Smooth"
+        }
+      }
+    },
+    {
+      "name": "IntakeStart",
+      "waypointRelativePos": 0.35990528808208855,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "IntakeStart"
+        }
+      }
+    },
+    {
+      "name": "IndexerStart",
+      "waypointRelativePos": 1.69534333070245,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "IndexerStart"
+        }
+      }
+    },
+    {
+      "name": "PrepL4",
+      "waypointRelativePos": 2.500394632991303,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PrepL4"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 59.99999999999999
+  },
+  "useDefaultConstraints": true
+}

@@ -12,6 +12,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.CANBus;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -34,8 +35,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.Trajectory;
-// import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Alert;
@@ -49,7 +50,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.FieldConstants;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
@@ -79,22 +79,22 @@ public class Drive extends SubsystemBase {
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
 
   // PathPlanner config constants
-  // private static final double ROBOT_MASS_KG = 74.088;
-  // private static final double ROBOT_MOI = 6.883;
-  // private static final double WHEEL_COF = 1.2;
-  // private static final RobotConfig PP_CONFIG =
-  //     new RobotConfig(
-  //         ROBOT_MASS_KG,
-  //         ROBOT_MOI,
-  //         new ModuleConfig(
-  //             TunerConstants.FrontLeft.WheelRadius,
-  //             TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
-  //             WHEEL_COF,
-  //             DCMotor.getKrakenX60Foc(1)
-  //                 .withReduction(TunerConstants.FrontLeft.DriveMotorGearRatio),
-  //             TunerConstants.FrontLeft.SlipCurrent,
-  //             1),
-  //         getModuleTranslations());
+  private static final double ROBOT_MASS_KG = 68.0;
+  private static final double ROBOT_MOI = 5.43;
+  private static final double WHEEL_COF = 1.1;
+  private static final RobotConfig PP_CONFIG =
+      new RobotConfig(
+          ROBOT_MASS_KG,
+          ROBOT_MOI,
+          new ModuleConfig(
+              TunerConstants.FrontLeft.WheelRadius,
+              TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
+              WHEEL_COF,
+              DCMotor.getKrakenX60Foc(1)
+                  .withReduction(TunerConstants.FrontLeft.DriveMotorGearRatio),
+              TunerConstants.FrontLeft.SlipCurrent,
+              1),
+          getModuleTranslations());
 
   static final Lock odometryLock = new ReentrantLock();
   private final GyroIO gyroIO;
@@ -116,26 +116,26 @@ public class Drive extends SubsystemBase {
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, new Pose2d());
   
-  public void configPathPlanner() {
-    RobotConfig config;
-    try {
-      config = RobotConfig.fromGUISettings();
-      AutoBuilder.configure(
-        this::getPose,
-        this::setPose,
-        this::getChassisSpeeds,
-        this::runVelocity,
-        new PPHolonomicDriveController(
-          new PIDConstants(3.67, 0, 0),
-          new PIDConstants(4.20, 0, 0)
-        ), 
-        config, 
-        () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red, 
-        this);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  // public void configPathPlanner() {
+  //   RobotConfig config;
+  //   try {
+  //     config = RobotConfig.fromGUISettings();
+  //     AutoBuilder.configure(
+  //       this::getPose,
+  //       this::setPose,
+  //       this::getChassisSpeeds,
+  //       this::runVelocity,
+  //       new PPHolonomicDriveController(
+  //         new PIDConstants(3.67, 0, 0),
+  //         new PIDConstants(4.20, 0, 0)
+  //       ), 
+  //       config, 
+  //       () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red, 
+  //       this);
+  //   } catch (Exception e) {
+  //     e.printStackTrace();
+  //   }
+  // }
   
   public Drive(
       GyroIO gyroIO,
@@ -158,17 +158,21 @@ public class Drive extends SubsystemBase {
     Field = new Field2d();
     autoTrajectory = new Trajectory();
     // Configure AutoBuilder for PathPlanner
-    configPathPlanner();
-    // AutoBuilder.configure(
-    //     this::getPose,
-    //     this::setPose,
-    //     this::getChassisSpeeds,
-    //     this::runVelocity,
-    //     new PPHolonomicDriveController(
-    //         new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0)),
-    //     PP_CONFIG,
-    //     () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-    //     this);
+
+    AutoBuilder.configure(
+      this::getPose,
+      this::setPose,
+      this::getChassisSpeeds,
+      this::runVelocity,
+      new PPHolonomicDriveController(
+        new PIDConstants(3.67, 0.0, 0.0), new PIDConstants(4.20, 0.0, 0.0)),
+      PP_CONFIG,
+      () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+      this);
+
+    // configPathPlanner();
+
+
     Pathfinding.setPathfinder(new LocalADStarAK());
     PathPlannerLogging.setLogCurrentPoseCallback(
         (pose) -> {
@@ -178,6 +182,7 @@ public class Drive extends SubsystemBase {
         (activePath) -> {
           Logger.recordOutput(
               "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+          Field.getObject("Trajectory").setPoses(activePath);
         });
     PathPlannerLogging.setLogTargetPoseCallback(
         (targetPose) -> {
