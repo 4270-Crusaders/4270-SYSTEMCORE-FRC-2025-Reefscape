@@ -97,6 +97,7 @@ public class RobotStateCommands {
                 new SpinFrontIntake(RobotContainer.frontIntake, 1),
                 new SpinRearIntake(RobotContainer.rearIntake, 1),
                 RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
+                RobotContainer.elevator.getSetpointCommand(ElevatorGoal.INDEX),
                 new InstantCommand(() -> RobotContainer.currentCoralIntakeState = CoralIntakeState.CoralIntaking)
             )
         );

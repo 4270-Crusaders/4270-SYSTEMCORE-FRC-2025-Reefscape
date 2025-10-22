@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.30859281775724,
-        "y": 2.7553466617491393
+        "x": 4.075423761739404,
+        "y": 2.907136360452
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.85,
-        "y": 2.75
+        "x": 4.965,
+        "y": 2.828
       },
       "prevControl": {
-        "x": 5.142337216108595,
-        "y": 2.7294815847649403
+        "x": 5.232418330304041,
+        "y": 2.8468871418798045
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Align",
-      "minWaypointRelativePos": 0.6,
+      "minWaypointRelativePos": 0.2699662542182228,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -47,10 +47,26 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "PrepL4",
-      "waypointRelativePos": 0.1484814398200226,
+      "name": "Default",
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Default"
+        }
+      }
+    },
+    {
+      "name": "PrepL4",
+      "waypointRelativePos": 0.22,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PrepL4"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -69,7 +85,7 @@
   "folder": "4 Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 130.87382884088447
   },
   "useDefaultConstraints": true
 }

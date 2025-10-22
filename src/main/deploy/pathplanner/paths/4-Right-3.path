@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.875,
-        "y": 2.875
+        "x": 4.001,
+        "y": 2.83
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.575436950908715,
-        "y": 2.2144343179206056
+        "x": 3.4352627714555544,
+        "y": 2.094976161887689
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 0.75
       },
       "prevControl": {
-        "x": 3.6640162281399205,
-        "y": 1.1080222637450161
+        "x": 3.5084909746312194,
+        "y": 1.0820911595903229
       },
       "nextControl": {
-        "x": 2.445963767244046,
-        "y": 0.4512764178916275
+        "x": 2.6054433591103625,
+        "y": 0.49231839121209525
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 1.375
       },
       "prevControl": {
-        "x": 1.2969592506333476,
-        "y": 0.8010789274568211
+        "x": 1.3202309740712297,
+        "y": 0.7745986319561964
       },
       "nextControl": {
-        "x": 1.642543513728228,
-        "y": 1.7779177716205492
+        "x": 1.6073598079822986,
+        "y": 1.7335655273619421
       },
       "isLocked": false,
       "linkedName": null
@@ -52,24 +52,24 @@
         "y": 1.7863778409090911
       },
       "prevControl": {
-        "x": 2.129755694832922,
-        "y": 1.7296675492192144
+        "x": 2.12827008801894,
+        "y": 1.7364738298288962
       },
       "nextControl": {
-        "x": 3.021083153263633,
-        "y": 1.937269116051878
+        "x": 2.924883072988333,
+        "y": 1.8987566350998872
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.6,
-        "y": 3.0
+        "x": 3.685,
+        "y": 3.013
       },
       "prevControl": {
-        "x": 3.4802512285921052,
-        "y": 2.7805456044042414
+        "x": 3.4558474259584173,
+        "y": 2.8176440857204668
       },
       "nextControl": null,
       "isLocked": false,
@@ -90,7 +90,7 @@
     {
       "name": "Score",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.25646794150731206,
+      "maxWaypointRelativePos": 0.14377406931964634,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
@@ -115,7 +115,7 @@
     },
     {
       "name": "Align",
-      "minWaypointRelativePos": 3.8,
+      "minWaypointRelativePos": 3.676508344030801,
       "maxWaypointRelativePos": 4.0,
       "constraints": {
         "maxVelocity": 1.0,

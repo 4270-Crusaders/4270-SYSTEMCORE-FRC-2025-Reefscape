@@ -61,7 +61,8 @@ public class Elevator extends SubsystemBase {
   public enum ElevatorGoal {  //(RotationPosition/(175/18))*3.14159625*0.0444754*2 = meterPositon
     DEFAULT(new LoggedTunableNumber("Elevator/DEFAULT", 0.03)),
     STOW(new LoggedTunableNumber("Elevator/Stow", 0.03)),
-    INTAKE(new LoggedTunableNumber("Elevator/Intake", 0.02)),
+    INTAKE(new LoggedTunableNumber("Elevator/Intake", 0.08)),
+    INDEX(new LoggedTunableNumber("Elevator/Index", 0.01)),
 
     PREPL1(new LoggedTunableNumber("Elevator/PrepL1", 0.18)),
     PREPL2(new LoggedTunableNumber("Elevator/PrepL2", 0.015)),
