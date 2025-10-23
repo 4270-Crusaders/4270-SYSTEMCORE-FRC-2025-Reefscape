@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.343861631738756,
-        "y": 1.9811061112095774
+        "x": 3.08784962559262,
+        "y": 2.110103103824642
       },
       "isLocked": false,
       "linkedName": null
@@ -17,59 +17,59 @@
     {
       "anchor": {
         "x": 3.0,
-        "y": 0.75
+        "y": 1.0
       },
       "prevControl": {
-        "x": 3.6518152207066765,
-        "y": 1.0994607166695285
+        "x": 3.6080937435694804,
+        "y": 1.4030159910660014
       },
       "nextControl": {
-        "x": 2.3133603733428423,
-        "y": 0.38186871309148296
+        "x": 2.6000430591342187,
+        "y": 0.7349273124229548
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.5,
-        "y": 1.375
+        "x": 1.75,
+        "y": 1.5
       },
       "prevControl": {
-        "x": 1.4260191952104213,
-        "y": 0.7696373673804204
+        "x": 1.6762156899486067,
+        "y": 0.9707574901122525
       },
       "nextControl": {
-        "x": 1.5653999713261368,
-        "y": 1.9101482580899445
+        "x": 1.870299774342976,
+        "y": 2.362890151955874
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3034375,
-        "y": 2.045639204545454
+        "x": 4.85284090909091,
+        "y": 2.147017045454545
       },
       "prevControl": {
-        "x": 2.1255737376006785,
-        "y": 1.869956302630789
+        "x": 4.2357972765304215,
+        "y": 1.7564831007960076
       },
       "nextControl": {
-        "x": 3.38917886739923,
-        "y": 3.1180678520697818
+        "x": 5.509303977272728,
+        "y": 2.5625
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.21,
-        "y": 3.85
+        "x": 5.281,
+        "y": 3.01
       },
       "prevControl": {
-        "x": 2.8582356570018503,
-        "y": 3.8030536705737195
+        "x": 5.409588068181819,
+        "y": 2.770241477272726
       },
       "nextControl": null,
       "isLocked": false,
@@ -78,11 +78,11 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9339622641509433,
+      "waypointRelativePos": 0.72624113475175,
       "rotationDegrees": 95.0
     },
     {
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 2.1843971631205648,
       "rotationDegrees": 49.0
     }
   ],
@@ -90,7 +90,7 @@
     {
       "name": "Score",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.08998875140607376,
+      "maxWaypointRelativePos": 0.05,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
@@ -102,8 +102,8 @@
     },
     {
       "name": "Intake",
-      "minWaypointRelativePos": 1.2778402699662557,
-      "maxWaypointRelativePos": 1.5658042744656966,
+      "minWaypointRelativePos": 1.2753623188405805,
+      "maxWaypointRelativePos": 1.4254049445865296,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 3.0,
@@ -115,7 +115,7 @@
     },
     {
       "name": "Align",
-      "minWaypointRelativePos": 3.522464698331203,
+      "minWaypointRelativePos": 3.648763853367443,
       "maxWaypointRelativePos": 4.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -130,7 +130,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "ScoreL4Smooth",
+      "name": "ScoreL4Rough",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
       "command": {
@@ -152,30 +152,19 @@
       }
     },
     {
-      "name": "IndexerStart",
-      "waypointRelativePos": 2.0,
+      "name": "IndexerStartKeepIntake",
+      "waypointRelativePos": 2.1551577152600156,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "IndexerStart"
-        }
-      }
-    },
-    {
-      "name": "Default",
-      "waypointRelativePos": 2.998716302952504,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Default"
+          "name": "IndexerStartKeepIntake"
         }
       }
     },
     {
       "name": "PrepL4",
-      "waypointRelativePos": 3.245186136071879,
+      "waypointRelativePos": 2.88491048593351,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -194,8 +183,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": 119.99999999999999
   },
   "reversed": false,
   "folder": "4 Right",

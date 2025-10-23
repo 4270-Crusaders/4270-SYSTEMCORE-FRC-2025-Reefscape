@@ -125,6 +125,16 @@ public class RobotStateCommands {
         );
     }
 
+    public static Command indexingStateAutoLeaveIntake() {
+        return new ParallelCommandGroup(
+            new SpinIndexer(RobotContainer.indexer, -1),
+            new SpinClawIntake(RobotContainer.clawIntake, -1),
+            new SpinFrontIntake(RobotContainer.frontIntake, 1),
+            new SpinRearIntake(RobotContainer.rearIntake, 1),
+            RobotContainer.elevator.getSetpointCommand(ElevatorGoal.INDEX)
+        );
+    }
+
     public static Command prepCoralScore(CoralLevels level) {
         switch (level) {    
             case L2:

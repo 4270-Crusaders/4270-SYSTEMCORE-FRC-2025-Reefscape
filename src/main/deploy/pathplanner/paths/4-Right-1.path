@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Align",
-      "minWaypointRelativePos": 0.2699662542182228,
+      "minWaypointRelativePos": 0.40750213128729734,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -59,7 +59,7 @@
     },
     {
       "name": "PrepL4",
-      "waypointRelativePos": 0.22,
+      "waypointRelativePos": 0.08525149190110837,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -85,7 +85,7 @@
   "folder": "4 Right",
   "idealStartingState": {
     "velocity": 0.0,
-    "rotation": 90.0
+    "rotation": 135.0
   },
   "useDefaultConstraints": true
 }

@@ -21,6 +21,7 @@ public class SetRobotStates extends SequentialCommandGroup {
         IndexingAuto,
         Intaking,
         IntakingAuto,
+        IndexingAutoLeaveIntake,
         Outtaking,
 
         PrepScoreL1,
@@ -80,7 +81,12 @@ public class SetRobotStates extends SequentialCommandGroup {
                 break;
             case IntakingAuto:
                 addCommands(
-                    RobotStateCommands.intakingState()  
+                    RobotStateCommands.intakingStateAuto()  
+                );
+                break;
+            case IndexingAutoLeaveIntake:
+                addCommands(
+                    RobotStateCommands.indexingStateAutoLeaveIntake()  
                 );
                 break;
             case Outtaking:
