@@ -25,7 +25,6 @@ import frc.robot.subsystems.leds.LedConstants.LEDStates;
 public class RobotStateCommands {
     public static Command defaultState() {
         return new SequentialCommandGroup(
-            new WaitCommand(0.15),
             new ParallelCommandGroup(
                 RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
                 RobotContainer.elevator.getSetpointCommand(ElevatorGoal.DEFAULT),

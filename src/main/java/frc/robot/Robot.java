@@ -116,7 +116,9 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    FollowPathCommand.warmupCommand().schedule();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -144,6 +146,7 @@ public class Robot extends LoggedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
     m_robotContainer.teleopTriggers();
   }
 
@@ -151,7 +154,9 @@ public class Robot extends LoggedRobot {
   public void teleopPeriodic() {}
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+    FollowPathCommand.warmupCommand().schedule();
+  }
 
   @Override
   public void testInit() {

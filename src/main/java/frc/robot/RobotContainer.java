@@ -220,6 +220,7 @@ public class RobotContainer {
   }
 
   public void teleopTriggers() { // only work in teleop not auto
+    Trigger isTeleop = new Trigger(()-> DriverStation.isTeleop());
     Trigger objectInClaw = new Trigger(() -> clawCanRange.objectInClaw);
     Trigger isCoralIntaking = new Trigger(() -> currentCoralIntakeState.equals(CoralIntakeState.CoralIntaking));
     Trigger isAlgaeIntaking = new Trigger(() -> currentBallIntakeState.equals(BallIntakeState.BallIntaking));
@@ -228,8 +229,8 @@ public class RobotContainer {
     Trigger withinDistanceToScore = new Trigger(() -> drive.distanceToTag() <= 0.5);//meters
     Trigger endgame = new Trigger(() -> DriverStation.getMatchTime() <= 15);
 
-    isCoralIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.Default));
-    isAlgaeIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.AlgDeafult));
+    isCoralIntaking.and(objectInClaw).and(isTeleop).onTrue(new SetRobotStates(RobotState.Default));
+    isAlgaeIntaking.and(objectInClaw).and(isTeleop).onTrue(new SetRobotStates(RobotState.AlgDeafult));
 
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L4).whileTrue(new SetRobotStates(RobotState.PrepScoreL4));
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L3).whileTrue(new SetRobotStates(RobotState.PrepScoreL3));
