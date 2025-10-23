@@ -58,17 +58,15 @@ public class RobotStateCommands {
         );
     }
     public static Command defaultStateAuto() {
-        return new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                RobotContainer.elevator.getSetpointCommand(ElevatorGoal.DEFAULT),
-                RobotContainer.arm.getSetpointCommand(ArmGoal.DEFAULT,200),  
-                new SpinIndexer(RobotContainer.indexer, 0),
-                new SpinClawIntake(RobotContainer.clawIntake, -0.02),
-                new SpinFrontIntake(RobotContainer.frontIntake, 0),
-                new SpinRearIntake(RobotContainer.rearIntake, 0),
-                new SetLEDs(RobotContainer.led, LEDStates.Default),
-                new InstantCommand(() -> RobotContainer.currentCoralIntakeState = CoralIntakeState.NotCoralIntaking)
-            )
+        return new ParallelCommandGroup(
+            RobotContainer.elevator.getSetpointCommand(ElevatorGoal.DEFAULT),
+            RobotContainer.arm.getSetpointCommand(ArmGoal.DEFAULT,200),  
+            new SpinIndexer(RobotContainer.indexer, 0),
+            new SpinClawIntake(RobotContainer.clawIntake, -0.02),
+            new SpinFrontIntake(RobotContainer.frontIntake, 0),
+            new SpinRearIntake(RobotContainer.rearIntake, 0),
+            new SetLEDs(RobotContainer.led, LEDStates.Default),
+            new InstantCommand(() -> RobotContainer.currentCoralIntakeState = CoralIntakeState.NotCoralIntaking)
         );
     }
 
@@ -85,6 +83,18 @@ public class RobotStateCommands {
         );
     }
 
+    public static Command intakingStateAuto() {
+        return new ParallelCommandGroup(
+            RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.INTAKE),
+            RobotContainer.elevator.getSetpointCommand(ElevatorGoal.DEFAULT),
+            RobotContainer.arm.getSetpointCommand(ArmGoal.INTAKE,200),  
+            new SpinFrontIntake(RobotContainer.frontIntake, 1),
+            new SpinRearIntake(RobotContainer.rearIntake, 1),
+            new SpinIndexer(RobotContainer.indexer, 0.5),
+            new SetLEDs(RobotContainer.led, LEDStates.Intaking)
+        );
+    }
+
     public static Command L1intake() {
         return new ParallelCommandGroup(
             RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.INTAKE),
@@ -94,29 +104,25 @@ public class RobotStateCommands {
     }
 
     public static Command indexingState() {
-        return new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new SpinIndexer(RobotContainer.indexer, -1),
-                new SpinClawIntake(RobotContainer.clawIntake, -1),
-                new SpinFrontIntake(RobotContainer.frontIntake, 1),
-                new SpinRearIntake(RobotContainer.rearIntake, 1),
-                RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
-                RobotContainer.elevator.getSetpointCommand(ElevatorGoal.INDEX),
-                new InstantCommand(() -> RobotContainer.currentCoralIntakeState = CoralIntakeState.CoralIntaking)
-            )
+        return new ParallelCommandGroup(
+            new SpinIndexer(RobotContainer.indexer, -1),
+            new SpinClawIntake(RobotContainer.clawIntake, -1),
+            new SpinFrontIntake(RobotContainer.frontIntake, 1),
+            new SpinRearIntake(RobotContainer.rearIntake, 1),
+            RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
+            RobotContainer.elevator.getSetpointCommand(ElevatorGoal.INDEX),
+            new InstantCommand(() -> RobotContainer.currentCoralIntakeState = CoralIntakeState.CoralIntaking)
         );
     }
+    
     public static Command indexingStateAuto() {
-        return new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new WaitCommand(0.8), 
-                new SpinIndexer(RobotContainer.indexer, -1),
-                new SpinClawIntake(RobotContainer.clawIntake, -1),
-                new SpinFrontIntake(RobotContainer.frontIntake, 1),
-                new SpinRearIntake(RobotContainer.rearIntake, 1),
-                RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
-                RobotContainer.elevator.getSetpointCommand(ElevatorGoal.INDEX)
-            )
+        return new ParallelCommandGroup(
+            new SpinIndexer(RobotContainer.indexer, -1),
+            new SpinClawIntake(RobotContainer.clawIntake, -1),
+            new SpinFrontIntake(RobotContainer.frontIntake, 1),
+            new SpinRearIntake(RobotContainer.rearIntake, 1),
+            RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
+            RobotContainer.elevator.getSetpointCommand(ElevatorGoal.INDEX)
         );
     }
 
@@ -223,7 +229,7 @@ public class RobotStateCommands {
                     new ParallelDeadlineGroup(
                         new WaitCommand(0.5),
                         RobotContainer.elevator.getSetpointCommand(ElevatorGoal.SCOREL4),
-                        RobotContainer.arm.getSetpointCommand(ArmGoal.SCOREL4AUTO,20)
+                        RobotContainer.arm.getSetpointCommand(ArmGoal.SCOREL4AUTO,30)
                     ),
                     new ParallelRaceGroup(
                         new WaitCommand(0.2),

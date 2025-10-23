@@ -289,7 +289,7 @@ public class RobotContainer {
   private void configNamedCommands() {
     NamedCommands.registerCommand("Return", new SetRobotStates(RobotState.Return));
     NamedCommands.registerCommand("PrepL4", new SetRobotStates(RobotState.PrepScoreL4Auto));
-    NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.Intaking));
+    NamedCommands.registerCommand("IntakeStart", new SetRobotStates(RobotState.IntakingAuto));
     NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
     NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4AutoSmooth));
     NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4AutoRough));

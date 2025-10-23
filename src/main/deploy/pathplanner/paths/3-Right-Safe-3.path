@@ -137,7 +137,7 @@
     },
     {
       "name": "IndexerStart",
-      "waypointRelativePos": 1.69534333070245,
+      "waypointRelativePos": 1.8155230596175247,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -148,7 +148,7 @@
     },
     {
       "name": "PrepL4",
-      "waypointRelativePos": 2.500394632991303,
+      "waypointRelativePos": 2.571428571428582,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

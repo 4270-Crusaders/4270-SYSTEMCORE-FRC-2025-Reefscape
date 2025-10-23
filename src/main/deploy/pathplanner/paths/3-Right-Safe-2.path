@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.099352251696484,
-        "y": 2.4713756940160385
+        "x": 5.114123207928783,
+        "y": 2.1094980620436976
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0855953115360886,
-        "y": 0.8690314620604557
+        "x": 2.871818181818182,
+        "y": 0.7393607954545461
       },
       "prevControl": {
-        "x": 3.859553174054568,
-        "y": 0.9531302726181313
+        "x": 3.4724563427873445,
+        "y": 0.8604067776121544
       },
       "nextControl": {
-        "x": 2.409298187458942,
-        "y": 0.7955445366438839
+        "x": 2.2651494183201253,
+        "y": 0.6170994722587755
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 1.3995373226403456
       },
       "prevControl": {
-        "x": 1.5975943872105303,
-        "y": 0.7439063367992201
+        "x": 1.546023657315475,
+        "y": 0.8488424380006121
       },
       "nextControl": {
-        "x": 1.5053961765862864,
-        "y": 2.3116731774121906
+        "x": 1.5821015491103263,
+        "y": 2.3755022270324
       },
       "isLocked": false,
       "linkedName": null
@@ -52,8 +52,8 @@
         "y": 2.83
       },
       "prevControl": {
-        "x": 3.594447871684145,
-        "y": 2.341455891425046
+        "x": 3.909026106530187,
+        "y": 2.5975332219004112
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,12 +62,12 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9389763779527619,
-      "rotationDegrees": 110.0
+      "waypointRelativePos": 0.9218472468916654,
+      "rotationDegrees": 100.0
     },
     {
-      "waypointRelativePos": 1.8602362204724239,
-      "rotationDegrees": 50.0
+      "waypointRelativePos": 2.0515097690941446,
+      "rotationDegrees": 29.999999999999996
     }
   ],
   "constraintZones": [
@@ -137,7 +137,7 @@
     },
     {
       "name": "IndexerStart",
-      "waypointRelativePos": 1.6574585635359163,
+      "waypointRelativePos": 1.5725534308211482,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -148,7 +148,7 @@
     },
     {
       "name": "PrepL4",
-      "waypointRelativePos": 2.645669291338604,
+      "waypointRelativePos": 2.443194600674911,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

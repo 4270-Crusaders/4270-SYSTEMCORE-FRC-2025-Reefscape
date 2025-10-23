@@ -18,7 +18,9 @@ public class SetRobotStates extends SequentialCommandGroup {
         Default,
         AlgDeafult,
         Indexing,
+        IndexingAuto,
         Intaking,
+        IntakingAuto,
         Outtaking,
 
         PrepScoreL1,
@@ -52,7 +54,6 @@ public class SetRobotStates extends SequentialCommandGroup {
         SmartScoreL4,
         PrepThrow,
         ThrowAlgae,
-        IndexingAuto,
         PrepIntakeL1
     }
 
@@ -73,6 +74,11 @@ public class SetRobotStates extends SequentialCommandGroup {
                 );
                 break;
             case Intaking:
+                addCommands(
+                    RobotStateCommands.intakingState()  
+                );
+                break;
+            case IntakingAuto:
                 addCommands(
                     RobotStateCommands.intakingState()  
                 );
@@ -153,6 +159,11 @@ public class SetRobotStates extends SequentialCommandGroup {
                     RobotStateCommands.indexingState()
                 );
                 break;
+            case IndexingAuto:
+                addCommands(
+                    RobotStateCommands.indexingStateAuto()
+                );
+                break;
             case Return:
                 addCommands(
                     RobotStateCommands.returnState()
@@ -221,11 +232,6 @@ public class SetRobotStates extends SequentialCommandGroup {
             case PrepThrow:
                 addCommands(
                     RobotStateCommands.prepAlgaeThrow()
-                );
-                break;
-            case IndexingAuto:
-                addCommands(
-                    RobotStateCommands.indexingStateAuto()
                 );
                 break;
             case PrepIntakeL1:

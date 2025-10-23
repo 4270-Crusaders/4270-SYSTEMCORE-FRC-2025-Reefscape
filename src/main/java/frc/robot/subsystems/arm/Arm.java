@@ -41,7 +41,7 @@ public class Arm extends SubsystemBase {
     PREPL3(new LoggedTunableNumber("Arm/PrepL3", 130)),
     PREPL4(new LoggedTunableNumber("Arm/PrepL4", 140)),
     RETURN(new LoggedTunableNumber("Arm/Return", 0)),
-    SCOREL4AUTO(new LoggedTunableNumber("Arm/ScoreL4sAuto", 110)),
+    SCOREL4AUTO(new LoggedTunableNumber("Arm/ScoreL4sAuto", 95)),
     ALGAEINTAKE(new LoggedTunableNumber("Arm/AlgaeIntake", 90)),
     BARGETHROWPREP(new LoggedTunableNumber("Arm/BargeThrowPrep", 103.7)),
     BARGETHROWRELEASE(new LoggedTunableNumber("Arm/BargeThrowRelease", 251)),
