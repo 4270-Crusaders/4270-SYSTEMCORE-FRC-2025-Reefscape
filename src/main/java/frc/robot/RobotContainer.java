@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -216,6 +217,41 @@ public class RobotContainer {
       .onTrue(Commands.runOnce(() -> drive.tareRotation(),drive).ignoringDisable(true));
     Controller.povUp()
       .onTrue(Commands.runOnce(() -> drive.tareTranslation(),drive).ignoringDisable(true));
+  }
+
+  public void teleopTriggers() { // only work in teleop not auto
+    Trigger objectInClaw = new Trigger(() -> clawCanRange.objectInClaw);
+    Trigger isCoralIntaking = new Trigger(() -> currentCoralIntakeState.equals(CoralIntakeState.CoralIntaking));
+    Trigger isAlgaeIntaking = new Trigger(() -> currentBallIntakeState.equals(BallIntakeState.BallIntaking));
+
+    Trigger withinDistancePrep = new Trigger(() -> drive.distanceToTag() <= 1.5);//meters
+    Trigger withinDistanceToScore = new Trigger(() -> drive.distanceToTag() <= 0.5);//meters
+    Trigger endgame = new Trigger(() -> DriverStation.getMatchTime() <= 15);
+
+    isCoralIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.Default));
+    isAlgaeIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.AlgDeafult));
+
+    (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L4).whileTrue(new SetRobotStates(RobotState.PrepScoreL4));
+    (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L3).whileTrue(new SetRobotStates(RobotState.PrepScoreL3));
+    (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L2).whileTrue(new SetRobotStates(RobotState.PrepScoreL2));
+
+    Controller.a().or(Controller.b()).whileTrue(led.setLedCommand(LEDStates.NotInScoringPosition)); 
+    Controller.a().or(Controller.b()).and(withinDistanceToScore).onTrue(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble).alongWith(new SetLEDs(led, LEDStates.InScoringPosition)));
+
+    endgame.onTrue(new InstantCommand(()->climb.getSetpointCommand(ClimbGoal.OUT)));
+    endgame.onTrue(new InstantCommand(()->led.setLedCommand(LEDStates.Endgame)));
+    endgame.onTrue(
+      new ParallelCommandGroup(
+        climb.getSetpointCommand(ClimbGoal.OUT),
+        led.setLedCommand(LEDStates.Endgame),
+        new InstantCommand(()->Elastic.selectTab("Endgame")),
+        new InstantCommand(()->Elastic.sendNotification(
+          new Elastic.Notification(
+            NotificationLevel.WARNING, "Endgame Started", "Climb activated and 15 seconds left in the match")
+          )
+        )
+      )
+    );
 
     Controller.a().whileTrue(new AlignToPole(PoleSide.Left, drive));
     Controller.b().whileTrue(new AlignToPole(PoleSide.Right, drive));
@@ -230,28 +266,6 @@ public class RobotContainer {
     Controller.button(4).onTrue(new SpinClawIntake(clawIntake, -0.75));
     Controller.button(3).onTrue(new SpinClawIntake(clawIntake, 1)).onFalse(new SpinClawIntake(clawIntake,0));
     Controller.leftBumper().onTrue(new SetRobotStates(RobotState.IntakeL1)).onFalse(new SetRobotStates(RobotState.PrepIntakeL1));
-  }
-
-  public void teleopTriggers() { // only work in teleop not auto
-    Trigger objectInClaw = new Trigger(() -> clawCanRange.objectInClaw);
-    Trigger isCoralIntaking = new Trigger(() -> currentCoralIntakeState.equals(CoralIntakeState.CoralIntaking));
-    Trigger withinDistancePrep = new Trigger(() -> drive.distanceToTag() <= 1.5);//meters
-    Trigger withinDistanceToScore = new Trigger(() -> drive.distanceToTag() <= 0.5);//meters
-    Trigger endgame = new Trigger(() -> DriverStation.getMatchTime() <= 15);
-
-    isCoralIntaking.and(objectInClaw).onTrue(new SetRobotStates(RobotState.Default).alongWith(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble)));
-
-    (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L4).whileTrue(new SetRobotStates(RobotState.PrepScoreL4));
-    (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L3).whileTrue(new SetRobotStates(RobotState.PrepScoreL3));
-    (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L2).whileTrue(new SetRobotStates(RobotState.PrepScoreL2));
-
-    Controller.a().or(Controller.b()).whileTrue(led.setLedCommand(LEDStates.NotInScoringPosition)); 
-    Controller.a().or(Controller.b()).and(withinDistanceToScore).onTrue(new SetLEDs(led, LEDStates.InScoringPosition).alongWith(new ControllerRumbleOnce(0.25, 0.25, Controller, RumbleType.kBothRumble)));
-
-    endgame.onTrue(new InstantCommand(()->climb.getSetpointCommand(ClimbGoal.OUT)));
-    endgame.onTrue(new InstantCommand(()->led.setLedCommand(LEDStates.Endgame)));
-    endgame.onTrue(new InstantCommand(()->Elastic.selectTab("Endgame")));
-    endgame.onTrue(new InstantCommand(()->Elastic.sendNotification(new Elastic.Notification(NotificationLevel.WARNING, "Endgame Started", "Climb activated and 15 seconds left in the match"))));
 
     Buttons.button(12).onTrue(new SetRobotStates(RobotState.PrepScoreL1));
     Buttons.button(11).onTrue(new SetRobotStates(RobotState.SmartScoreL2));
@@ -279,8 +293,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("IndexerStart", new SetRobotStates(RobotState.IndexingAuto));
     NamedCommands.registerCommand("ScoreL4Smooth", new SetRobotStates(RobotState.ScoringL4AutoSmooth));
     NamedCommands.registerCommand("ScoreL4Rough", new SetRobotStates(RobotState.ScoringL4AutoRough));
-    NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLow));
-    NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHigh));
+    NamedCommands.registerCommand("A1Prep", new SetRobotStates(RobotState.AlgaeLowAuto));
+    NamedCommands.registerCommand("A2Prep", new SetRobotStates(RobotState.AlgaeHighAuto));
     NamedCommands.registerCommand("ClawOuttake", new SpinClawIntake(clawIntake, 1));
     NamedCommands.registerCommand("ClawIntake", new SpinClawIntake(clawIntake, -0.25));
     NamedCommands.registerCommand("ClawStop", new SpinClawIntake(clawIntake, 0));

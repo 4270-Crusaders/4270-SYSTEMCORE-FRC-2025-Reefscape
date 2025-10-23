@@ -39,7 +39,9 @@ public class SetRobotStates extends SequentialCommandGroup {
 
         Return,
         AlgaeHigh,
+        AlgaeHighAuto,
         AlgaeLow,
+        AlgaeLowAuto,
         BargeScore,
         Processor,
         BackwardBarge,
@@ -164,6 +166,16 @@ public class SetRobotStates extends SequentialCommandGroup {
             case AlgaeLow:
                 addCommands(
                     RobotStateCommands.algaeIntakingL1()
+                );
+                break;
+            case AlgaeHighAuto:
+                addCommands(
+                    RobotStateCommands.algaeIntakingL2Auto()
+                );
+                break;
+            case AlgaeLowAuto:
+                addCommands(
+                    RobotStateCommands.algaeIntakingL1Auto()
                 );
                 break;
             case BargeScore:

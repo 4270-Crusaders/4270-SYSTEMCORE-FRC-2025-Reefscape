@@ -25,7 +25,7 @@
       },
       "nextControl": {
         "x": 2.4603345506067544,
-        "y": 0.43118679863735837
+        "y": 0.4311867986373583
       },
       "isLocked": false,
       "linkedName": null
@@ -153,7 +153,7 @@
     },
     {
       "name": "IndexerStart",
-      "waypointRelativePos": 1.9118644067796622,
+      "waypointRelativePos": 1.646794150731165,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -164,7 +164,7 @@
     },
     {
       "name": "PrepL4",
-      "waypointRelativePos": 2.967907573812585,
+      "waypointRelativePos": 3.0776152980877494,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
