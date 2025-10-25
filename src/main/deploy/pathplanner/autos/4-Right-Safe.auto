@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "4-Right-1"
+            "pathName": "4-Right-Safe-1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.1
+            "waitTime": 0.05
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4-Right-2"
+            "pathName": "4-Right-Safe-2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4-Right-3"
+            "pathName": "4-Right-Safe-3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4-Right-4"
+            "pathName": "4-Right-Safe-4"
           }
         },
         {

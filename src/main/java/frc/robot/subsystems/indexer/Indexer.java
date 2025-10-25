@@ -22,6 +22,10 @@ public class Indexer extends SubsystemBase {
     return runEnd(() -> io.setVoltage(percent * 12.0), () -> io.setVoltage(0.0));
   }
 
+  public Command runVoltage(double Voltage) {
+    return runEnd(() -> io.setVoltage(Voltage), () -> io.setVoltage(0.0));
+  }
+
   public void runPowerDutyCycleOut(double power) {
     io.runPowerDutyCycleOut(power);
   }

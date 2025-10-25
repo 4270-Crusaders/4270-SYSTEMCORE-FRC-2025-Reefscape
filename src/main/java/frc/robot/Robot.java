@@ -93,7 +93,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotInit() {
-    FollowPathCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
   }
   @Override
   public void robotPeriodic() {
@@ -117,7 +117,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledInit() {
-    FollowPathCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
   }
 
   @Override
@@ -155,7 +155,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopExit() {
-    FollowPathCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
   }
 
   @Override

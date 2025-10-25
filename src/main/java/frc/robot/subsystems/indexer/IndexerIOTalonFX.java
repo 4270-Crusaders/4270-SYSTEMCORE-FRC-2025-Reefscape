@@ -50,7 +50,7 @@ public class IndexerIOTalonFX implements IndexerIO {
 
     @Override
     public void setVoltage(double volts) {
-    Indexer.setControl(voltageRequest.withOutput(volts));
+        Indexer.setControl(voltageRequest.withOutput(volts));
     }
 
     @Override

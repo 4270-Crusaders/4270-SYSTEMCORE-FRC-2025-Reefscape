@@ -8,40 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.87697779290644,
-        "y": 2.594008352588434
+        "x": 4.766179727333402,
+        "y": 2.6764397836608183
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.1493607954545455,
-        "y": 0.9670454545454539
+        "x": 3.25,
+        "y": 1.0
       },
       "prevControl": {
-        "x": 5.185227272727273,
-        "y": 1.6567471590909095
+        "x": 3.872301136363637,
+        "y": 1.374218749999999
       },
       "nextControl": {
-        "x": 2.6117559646661634,
-        "y": 0.7849181037069407
+        "x": 2.852761364889382,
+        "y": 0.7611218479345082
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.445880681818182,
-        "y": 1.5237926136363626
+        "x": 1.5,
+        "y": 1.5
       },
       "prevControl": {
-        "x": 1.7013621330334054,
-        "y": 0.7462403708074231
+        "x": 1.5272016642189006,
+        "y": 0.8161753077232506
       },
       "nextControl": {
-        "x": 1.2547585227272726,
-        "y": 2.1054687499999987
+        "x": 1.459549881527505,
+        "y": 2.516878584869535
       },
       "isLocked": false,
       "linkedName": null
@@ -52,8 +52,8 @@
         "y": 2.83
       },
       "prevControl": {
-        "x": 3.523295454545455,
-        "y": 1.9558948863636352
+        "x": 3.7310369318181817,
+        "y": 2.429545454545454
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,12 +62,12 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0382978723404295,
-      "rotationDegrees": 100.0
+      "waypointRelativePos": 0.9106382978723386,
+      "rotationDegrees": 119.99999999999999
     },
     {
-      "waypointRelativePos": 2.0515097690941446,
-      "rotationDegrees": 50.0
+      "waypointRelativePos": 2.195744680851054,
+      "rotationDegrees": 59.99999999999999
     }
   ],
   "constraintZones": [
@@ -86,8 +86,8 @@
     },
     {
       "name": "Intake",
-      "minWaypointRelativePos": 1.3606138107416954,
-      "maxWaypointRelativePos": 1.4833759590792788,
+      "minWaypointRelativePos": 1.1713554987212218,
+      "maxWaypointRelativePos": 1.3503836317135536,
       "constraints": {
         "maxVelocity": 1.5,
         "maxAcceleration": 3.0,

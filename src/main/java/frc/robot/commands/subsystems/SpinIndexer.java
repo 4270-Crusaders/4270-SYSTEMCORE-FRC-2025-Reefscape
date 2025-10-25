@@ -16,6 +16,7 @@ public class SpinIndexer extends Command {
 
     @Override
     public void execute() {
+        // s_Indexer.runVoltage(power);
         s_Indexer.runPowerDutyCycleOut(power);
     }
 }

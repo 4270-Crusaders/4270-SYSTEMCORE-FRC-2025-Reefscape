@@ -204,13 +204,14 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-
     drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
-            drive,
-            () -> -Controller.getLeftY(),
-            () -> -Controller.getLeftX(),
-            () -> -Controller.getRightX()));
+      DriveCommands.joystickDrive(
+        drive,
+        () -> -Controller.getLeftY(),
+        () -> -Controller.getLeftX(),
+        () -> -Controller.getRightX()
+      )
+    );
 
     // Tare heading or translation with D-pad
     Controller.povDown()
