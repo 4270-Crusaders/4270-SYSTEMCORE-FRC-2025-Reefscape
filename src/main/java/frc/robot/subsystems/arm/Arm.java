@@ -136,6 +136,10 @@ public class Arm extends SubsystemBase {
     };
   }
 
+  public double currentDegrees(){
+    return io.getDegrees();
+  }
+
   @AutoLogOutput
   public boolean atGoal() {
     return io.atGoal();

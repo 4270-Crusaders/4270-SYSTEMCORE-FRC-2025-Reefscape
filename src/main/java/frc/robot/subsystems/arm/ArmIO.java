@@ -34,4 +34,8 @@ public interface ArmIO {
     default void runCurrent(double amps) {}
 
     default void setPID(double p, double i, double d, double v, double s, double a, double g) {}
+
+    default double getDegrees() {
+        return 0.0;
+    }
 }

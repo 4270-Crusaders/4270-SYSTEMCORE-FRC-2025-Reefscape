@@ -122,6 +122,11 @@ public class ArmIOTalonFX implements ArmIO{
     }
 
     @Override
+    public double getDegrees(){
+        return armMotor.getPosition().getValueAsDouble();
+    }
+
+    @Override
     public void runVolts(double volts) {
         armMotor.setControl(voltageControl.withOutput(volts));
     }

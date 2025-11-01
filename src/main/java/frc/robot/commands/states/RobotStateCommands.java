@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.FieldConstants.CoralLevels;
 import frc.robot.RobotContainer;
 import frc.robot.commands.states.SetRobotStates.BallIntakeState;
@@ -41,14 +42,14 @@ public class RobotStateCommands {
 
     public static Command algDefaultState() {
         return new SequentialCommandGroup(
-            new WaitCommand(0.3),
+            new WaitUntilCommand(()->RobotContainer.drive.distanceToTag() >= 0.5),
             new ParallelCommandGroup(
                 new InstantCommand(()->RobotContainer.currentBallIntakeState = BallIntakeState.NotBallIntaking),
                 RobotContainer.intakeWrist.getSetpointCommand(IntakeWristGoal.UP),
                 RobotContainer.elevator.getSetpointCommand(ElevatorGoal.DEFAULT),
                 RobotContainer.arm.getSetpointCommand(ArmGoal.DEFAULT,200),
                 new SpinIndexer(RobotContainer.indexer, 0),
-                new SpinClawIntake(RobotContainer.clawIntake, -0.10),
+                new SpinClawIntake(RobotContainer.clawIntake, -0.12),
                 new SpinFrontIntake(RobotContainer.frontIntake, 0),
                 new SpinRearIntake(RobotContainer.rearIntake, 0),
                 new SetLEDs(RobotContainer.led, LEDStates.Default),
@@ -287,7 +288,7 @@ public class RobotStateCommands {
             new InstantCommand(()->RobotContainer.currentBallIntakeState = BallIntakeState.BallIntaking),
             RobotContainer.arm.getSetpointCommand(ArmGoal.ALGAEINTAKE,200),
             RobotContainer.elevator.getSetpointCommand(ElevatorGoal.ALGAEL2),
-            new SpinClawIntake(RobotContainer.clawIntake, -0.4)
+            new SpinClawIntake(RobotContainer.clawIntake, -0.7)
         );
     }
 
@@ -296,7 +297,7 @@ public class RobotStateCommands {
             new InstantCommand(()->RobotContainer.currentBallIntakeState = BallIntakeState.BallIntaking),
             RobotContainer.arm.getSetpointCommand(ArmGoal.ALGAEINTAKE,200),
             RobotContainer.elevator.getSetpointCommand(ElevatorGoal.ALGAEL1),
-            new SpinClawIntake(RobotContainer.clawIntake, -0.4)
+            new SpinClawIntake(RobotContainer.clawIntake, -0.7)
         );
     }
 

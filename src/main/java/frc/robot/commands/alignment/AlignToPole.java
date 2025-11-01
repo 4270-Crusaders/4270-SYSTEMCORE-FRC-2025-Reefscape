@@ -38,7 +38,7 @@ public class AlignToPole extends Command{
     double velocityRot;
 
     PIDController HeadingController;
-    LoggedTunableNumber kPLinTunableNumber = new LoggedTunableNumber("Align/KpLin", 3.2);
+    LoggedTunableNumber kPLinTunableNumber = new LoggedTunableNumber("Align/KpLin", 3.67);
     LoggedTunableNumber kPRotTunableNumber = new LoggedTunableNumber("Align/KpRot", 4.2);
     
     double kP_lin;
