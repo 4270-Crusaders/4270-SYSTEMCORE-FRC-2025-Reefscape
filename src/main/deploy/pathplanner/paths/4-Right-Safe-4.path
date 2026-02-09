@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 1.5,
-        "y": 1.5
+        "x": 1.6552840909090907,
+        "y": 1.2578835227272724
       },
       "prevControl": {
-        "x": 1.4059943181818182,
-        "y": 0.9587357954545449
+        "x": 1.5612784090909086,
+        "y": 0.7166193181818172
       },
       "nextControl": {
-        "x": 1.6804877986318005,
-        "y": 2.5392093633824064
+        "x": 1.8357718895408903,
+        "y": 2.2970928861096818
       },
       "isLocked": false,
       "linkedName": null
@@ -140,7 +140,7 @@
     },
     {
       "name": "IndexerStart",
-      "waypointRelativePos": 2.015748031496064,
+      "waypointRelativePos": 2.042744656917891,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",

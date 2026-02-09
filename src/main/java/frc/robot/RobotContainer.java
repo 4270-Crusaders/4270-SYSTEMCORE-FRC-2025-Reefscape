@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -36,8 +38,12 @@ import frc.robot.commands.states.SetRobotStates.RobotState;
 import frc.robot.commands.subsystems.DriveCommands;
 import frc.robot.commands.subsystems.SetLEDs;
 import frc.robot.commands.subsystems.SpinClawIntake;
+import frc.robot.commands.subsystems.SpinFrontIntake;
+import frc.robot.commands.subsystems.SpinIndexer;
+import frc.robot.commands.subsystems.SpinRearIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.arm.Arm.ArmGoal;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOTalonFX;
 import frc.robot.subsystems.clawCanRange.ClawCanRange;
@@ -55,6 +61,7 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.Elevator.ElevatorGoal;
 import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.elevator.ElevatorIOTalonFX;
 import frc.robot.subsystems.frontIntake.FrontIntake;
@@ -64,6 +71,7 @@ import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.IndexerIO;
 import frc.robot.subsystems.indexer.IndexerIOTalonFX;
 import frc.robot.subsystems.intakeWrist.IntakeWrist;
+import frc.robot.subsystems.intakeWrist.IntakeWrist.IntakeWristGoal;
 import frc.robot.subsystems.intakeWrist.IntakeWristIO;
 import frc.robot.subsystems.intakeWrist.IntakeWristIOTalonFX;
 import frc.robot.subsystems.leds.Led;
@@ -231,7 +239,13 @@ public class RobotContainer {
     Trigger endgame = new Trigger(() -> DriverStation.getMatchTime() <= 15);
 
     isCoralIntaking.and(objectInClaw).and(isTeleop).onTrue(new SetRobotStates(RobotState.Default));
-    isAlgaeIntaking.and(objectInClaw).and(isTeleop).onTrue(new SetRobotStates(RobotState.AlgDeafult));
+    isAlgaeIntaking.and(objectInClaw).and(isTeleop).onTrue(
+      new SequentialCommandGroup(
+        new WaitUntilCommand(()->RobotContainer.drive.distanceToTag() >= 0.5),
+        new SetRobotStates(RobotState.AlgDeafult)
+      )
+    );
+
 
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L4).whileTrue(new SetRobotStates(RobotState.PrepScoreL4));
     (Controller.a().or(Controller.b())).and(withinDistancePrep).and(() -> elevator.getCurrentLevel() == CoralLevels.L3).whileTrue(new SetRobotStates(RobotState.PrepScoreL3));
